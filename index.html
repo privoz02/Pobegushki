@@ -4,7 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Мальчик на побегушках(яяяяяяяяяя😭)</title>
+<!-- preconnect чтобы шрифт не блокировал рендер -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
+<!-- preload критичных картинок которые видны сразу -->
+<link rel="preload" as="image" href="images/yulia.png">
+<link rel="preload" as="image" href="images/privoz.png">
+<link rel="preload" as="image" href="images/grandon.png">
+<link rel="preload" as="image" href="images/kami.png">
+<link rel="preload" as="image" href="images/cat-dance.gif">
 <style>
   :root {
     --sky: #b8e0ff;
@@ -5759,8 +5768,8 @@
       <span class="shop-trinket trinket-box"></span>
     </div>
     <div class="shop-item">
-      <strong>Право на постройку дома</strong>
-      <span id="shopHouseText">Сначала купи право, потом строй дом по кусочкам.</span>
+      <strong>частный домик для Юли</strong>
+      <span id="shopHouseText">купи блин ей!!!</span>
       <button class="house-action-btn" id="shopHouseBtn" type="button">купить</button>
     </div>
     <div class="shop-consumables-grid">
@@ -5776,7 +5785,7 @@
         <span class="shop-consumable-icon perk-cookie" aria-hidden="true"></span>
         <div class="shop-consumable-copy">
           <strong>Печенька Юли</strong>
-          <span id="shopCookieText">На несколько доставок повышает шанс перепрыгнуть волны.</span>
+          <span id="shopCookieText">+12% к ловкости, очень вкусно!!!</span>
         </div>
         <button class="house-action-btn" id="shopCookieBtn" type="button">купить</button>
       </div>
@@ -6362,7 +6371,7 @@ const ZONES_DEF = [
   { id: 1, name: 'Берег',  cost: 0,    desc: 'уже открыта' },
   { id: 2, name: 'Гавань', cost: 300,  desc: '+ 3 поняшки и Джефф на лужайке' },
   { id: 3, name: 'Шторм',  cost: 1500, desc: 'тут опаснее' },
-  { id: 4, name: 'Финал',  cost: 8000, desc: 'Ками' },
+  { id: 4, name: 'Финал',  cost: 8000, desc: 'за волнами — она' },
 ];
 const SHOP_ZONE_ID = 2;
 let cameraX = 0;         // смещение камеры (мир сдвигается на -cameraX)
@@ -7709,8 +7718,8 @@ function renderShopPerkItems() {
   }
   if (shopCookieText) {
     shopCookieText.textContent = yuliaCookieBoost > 0
-      ? `Работает ещё ${yuliaCookieBoost} ${deliveryWord(yuliaCookieBoost)}: +${Math.round(YULIA_COOKIE_BONUS * 100)}% к прыжкам.`
-      : `+${Math.round(YULIA_COOKIE_BONUS * 100)}% к прыжкам на ${YULIA_COOKIE_USES} ${deliveryWord(YULIA_COOKIE_USES)}.`;
+      ? `Работает ещё ${yuliaCookieBoost} ${deliveryWord(yuliaCookieBoost)}: +${Math.round(YULIA_COOKIE_BONUS * 100)}% к ловкости, очень вкусно!!!`
+      : `+${Math.round(YULIA_COOKIE_BONUS * 100)}% к ловкости, очень вкусно!!!`;
   }
   if (shopCookieBtn) {
     shopCookieBtn.textContent = yuliaCookieBoost > 0 ? 'печенька уже работает' : `купить ${YULIA_COOKIE_COST}💰`;
@@ -8491,11 +8500,13 @@ function closeShop() {
 function renderShopHouseItem() {
   if (!shopHouseBtn || !shopHouseText) return;
   if (!housePermit) {
-    shopHouseText.textContent = 'Право надо купить и донести Юле.';
+    shopHouseText.textContent = 'купи блин ей!!!';
     shopHouseBtn.textContent = `купить право ${HOUSE_PERMIT_COST}💰`;
     shopHouseBtn.disabled = collBalance < HOUSE_PERMIT_COST;
   } else {
-    shopHouseText.textContent = 'Право уже куплено. Остальное строится на лужке слева.';
+    shopHouseText.textContent = houseStage >= 3
+      ? 'в следующем обновлении можно будет посадить сына и вырастить дерево...'
+      : 'уряяяяяяяяяя, осталось построить хд';
     shopHouseBtn.textContent = 'куплено';
     shopHouseBtn.disabled = true;
   }
