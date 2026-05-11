@@ -6356,6 +6356,9 @@ function checkLyrics() {
       } else if (line.who === 'vasya') {
         if (vasyaFriends.length > 0) showVasyaSpeech(line.text);
       } else if (line.who === 'yulia') {
+        // на song4 Юля и Ками поют дуэтом — если Ками нет в комнате,
+        // Юля не поёт сама с собой
+        if (currentTrack === 3 && (!Array.isArray(kamiFriends) || kamiFriends.length === 0)) return;
         showBubble(line.text, { fromLyrics: true });
       }
     }
