@@ -2810,9 +2810,9 @@
 
   .shop-edge-tentacle {
     position: fixed;
-    top: clamp(22px, 3vh, 36px);
+    top: -90px;
     width: clamp(150px, 15vw, 230px);
-    height: min(calc(100vh - 44px), 900px);
+    height: min(calc(100vh + 90px), 1000px);
     z-index: 3;
     pointer-events: auto;
     cursor: pointer;
@@ -2822,7 +2822,8 @@
     user-select: none;
     -webkit-tap-highlight-color: transparent;
     /* фиксируем элемент сильно к viewport — никаких ancestor-зависимостей */
-    will-change: transform;
+    will-change: transform, translate;
+    translate: 0px 0px;
     backface-visibility: hidden;
     contain: layout style;
     filter:
@@ -2847,12 +2848,12 @@
   }
   /* очень аккуратный наклон — щупальца стоят, но «дышат» */
   @keyframes edgeTentacleIdleLeft {
-    from { transform: rotate(-0.35deg); }
-    to   { transform: rotate(0.2deg); }
+    from { transform: rotate(-1.2deg) translateX(-4px); }
+    to   { transform: rotate(0.8deg) translateX(3px); }
   }
   @keyframes edgeTentacleIdleRight {
-    from { transform: rotate(0.35deg); }
-    to   { transform: rotate(-0.2deg); }
+    from { transform: rotate(1.2deg) translateX(4px); }
+    to   { transform: rotate(-0.8deg) translateX(-3px); }
   }
   .shop-edge-tentacle .edge-body {
     stroke: #100719;
@@ -5602,7 +5603,6 @@
     <div class="ending-credit-row"><span class="role">Закадровый голос</span><span class="who">Юля (молчит)</span></div>
     <div class="ending-credit-row"><span class="role">Спецэффекты плеска</span><span class="who">Claude (мысленно)</span></div>
     <div class="ending-credit-row"><span class="role">Дизайн ям</span><span class="who">Claude</span></div>
-    <div class="ending-credit-row"><span class="role">Контроль качества Васи</span><span class="who">ChatGPT</span></div>
     <div class="ending-credit-row"><span class="role">Контроль качества Ками</span><span class="who">Юля лично</span></div>
     <div class="ending-credit-row"><span class="role">Главное оправдание</span><span class="who">привоз</span></div>
     <div class="ending-credit-row"><span class="role">Душнила-консультант</span><span class="who">ChatGPT</span></div>
@@ -5720,6 +5720,13 @@
         <input type="checkbox" id="toggleSfx" checked>
         <span class="toggle-track"></span>
       </label>
+    </div>
+    <div class="settings-row" style="flex-direction:column;align-items:stretch;gap:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="settings-row-label">Громкость эффектов</div>
+        <div style="font-size:12px;font-weight:800;color:var(--text-soft)" id="sfxVolValue">70%</div>
+      </div>
+      <input type="range" id="sfxVolSlider" min="0" max="1" step="0.05" value="0.7" style="width:100%;accent-color:#f472b6">
     </div>
     <div class="settings-row" style="flex-direction:column;align-items:stretch;gap:8px">
       <div style="display:flex;justify-content:space-between;align-items:center">
@@ -5863,6 +5870,10 @@
 let audioCtx = null;
 let muted = false;
 let sfxMuted = false; // отключает все эффекты, кроме музыкального плеера
+let sfxVolume = (() => {
+  const v = parseFloat(localStorage.getItem('sfxVolume'));
+  return isNaN(v) ? 0.7 : Math.max(0, Math.min(1, v));
+})(); // глобальный множитель громкости звуковых эффектов
 let musicVolume = (() => {
   const v = parseFloat(localStorage.getItem('musicVolume'));
   return isNaN(v) ? 0.5 : Math.max(0, Math.min(1, v));
@@ -6184,16 +6195,19 @@ function checkLyrics() {
 
 function playerLoadTrack(idx, autoplay) {
   currentTrack = idx % TRACKS.length;
-  if (audioEl) {
+  if (!audioEl) {
+    // создаём один раз — затем только меняем src
+    audioEl = new Audio();
+    audioEl.addEventListener('timeupdate', updatePlayerUI);
+    audioEl.addEventListener('timeupdate', checkLyrics);
+    audioEl.addEventListener('ended', () => { resetLyrics(); playerLoadTrack(currentTrack + 1, true); });
+    audioEl.addEventListener('loadedmetadata', updatePlayerUI);
+  } else {
     audioEl.pause();
-    audioEl.src = '';
   }
-  audioEl = new Audio(TRACKS[currentTrack].file);
+  audioEl.src = TRACKS[currentTrack].file;
   audioEl.volume = muted ? 0 : playerVolumeVal * musicVolume;
-  audioEl.addEventListener('timeupdate', updatePlayerUI);
-  audioEl.addEventListener('timeupdate', checkLyrics);
-  audioEl.addEventListener('ended', () => { resetLyrics(); playerLoadTrack(currentTrack + 1, true); });
-  audioEl.addEventListener('loadedmetadata', updatePlayerUI);
+  audioEl.load(); // сбрасываем буфер чтобы не было двойного звука
   updatePlayerUI();
   if (autoplay) {
     audioEl.play().catch(()=>{});
@@ -6249,10 +6263,14 @@ playerVol.addEventListener('input', e => {
 playerBar.addEventListener('click', e => {
   if (!audioEl || !audioEl.duration) return;
   const rect = playerBar.getBoundingClientRect();
-  const pct = (e.clientX - rect.left) / rect.width;
-  audioEl.currentTime = pct * audioEl.duration;
-  // при перемотке назад сбрасываем показанные строки чтобы они могли сработать снова
+  const pct  = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
   const newTime = pct * audioEl.duration;
+  // пауза перед seek'ом — без неё браузер может отдать двойной буфер (старый + новый)
+  const wasPlaying = playerPlaying;
+  if (wasPlaying) audioEl.pause();
+  audioEl.currentTime = newTime;
+  if (wasPlaying) audioEl.play().catch(() => {});
+  // при перемотке назад сбрасываем показанные строки чтобы они могли сработать снова
   const lines = SONG_LYRICS[currentTrack];
   if (lines) {
     lines.forEach((line, idx) => { if (line.t > newTime) lyricsShown.delete(idx); });
@@ -6276,14 +6294,14 @@ function playVictory() {
       osc.connect(gain); gain.connect(ctx.destination);
       osc.type = 'triangle'; osc.frequency.value = freq;
       const s = t + i * 0.13;
-      gain.gain.setValueAtTime(0, s); gain.gain.linearRampToValueAtTime(0.28, s + 0.04);
+      gain.gain.setValueAtTime(0, s); gain.gain.linearRampToValueAtTime(0.28 * sfxVolume, s + 0.04);
       gain.gain.exponentialRampToValueAtTime(0.001, s + 0.35);
       osc.start(s); osc.stop(s + 0.4);
     });
     const osc2 = ctx.createOscillator(); const g2 = ctx.createGain();
     osc2.connect(g2); g2.connect(ctx.destination); osc2.type = 'sine';
     osc2.frequency.setValueAtTime(1400, t + 0.55); osc2.frequency.linearRampToValueAtTime(1800, t + 0.8);
-    g2.gain.setValueAtTime(0.15, t + 0.55); g2.gain.exponentialRampToValueAtTime(0.001, t + 0.85);
+    g2.gain.setValueAtTime(0.15 * sfxVolume, t + 0.55); g2.gain.exponentialRampToValueAtTime(0.001, t + 0.85);
     osc2.start(t + 0.55); osc2.stop(t + 0.9);
   } catch(e) {}
 }
@@ -6292,7 +6310,7 @@ function playFileSound(file, volume = 0.85) {
   if (muted || sfxMuted) return;
   try {
     const sound = new Audio(file);
-    sound.volume = volume;
+    sound.volume = Math.min(1, volume * sfxVolume);
     sound.play().catch(() => playVasyaFallback());
   } catch(e) {
     playVasyaFallback();
@@ -6312,7 +6330,7 @@ function playTonePattern(notes, type = 'triangle', volume = 0.08) {
       osc.frequency.setValueAtTime(note.freq, t);
       if (note.to) osc.frequency.exponentialRampToValueAtTime(note.to, t + (note.len || 0.16));
       gain.gain.setValueAtTime(0, t);
-      gain.gain.linearRampToValueAtTime(note.volume ?? volume, t + 0.018);
+      gain.gain.linearRampToValueAtTime((note.volume ?? volume) * sfxVolume, t + 0.018);
       gain.gain.exponentialRampToValueAtTime(0.001, t + (note.len || 0.18));
       osc.connect(gain).connect(ctx.destination);
       osc.start(t);
@@ -6381,7 +6399,7 @@ function playVasyaFallback() {
     osc.type = 'sawtooth';
     osc.frequency.setValueAtTime(88, t);
     osc.frequency.exponentialRampToValueAtTime(44, t + 0.22);
-    gain.gain.setValueAtTime(0.08, t);
+    gain.gain.setValueAtTime(0.08 * sfxVolume, t);
     gain.gain.exponentialRampToValueAtTime(0.001, t + 0.28);
     osc.connect(gain).connect(ctx.destination);
     osc.start(t); osc.stop(t + 0.3);
@@ -6441,7 +6459,7 @@ let ACCURACY_BONUS = 0;       // бонус к JUMP_SUCCESS_CHANCE от прок
 let LUCK_MULT      = 1.0;     // coin multiplier
 let runnerPaused   = false;   // пауза для мальчика
 let GAME_SPEED_MULT = 1.0;    // множитель скорости игры
-let WAVE_INTERVAL = 1600;
+let WAVE_INTERVAL = 2000;
 
 function updateTrackDimensions() {
   const tw = track.offsetWidth;
@@ -6450,7 +6468,7 @@ function updateTrackDimensions() {
   WORLD_WIDTH     = BASE_ZONE_WIDTH * unlockedZones;
   TRACK_END       = Math.max(200, BASE_ZONE_WIDTH - 46);
   SPAWN_X         = WORLD_WIDTH + 10;
-  WAVE_INTERVAL   = Math.round(1600 * TRACK_END / 355);
+  WAVE_INTERVAL   = Math.round(2000 * TRACK_END / 355);
   if (world) {
     world.style.width = WORLD_WIDTH + 'px';
     decorateWorld();
@@ -7036,9 +7054,12 @@ fStyle.textContent = '@keyframes floatFlower{0%{transform:translateY(0) rotate(-
 document.head.appendChild(fStyle);
 
 // ── ВОЛНЫ ───────────────────────────────────────────────────
+const WAVE_MIN_GAP = 90; // минимальное расстояние между волнами при спавне
 function spawnWave() {
   const el = getFreeWaveEl();
   if (!el) return;
+  // не спавним если уже есть волна слишком близко к точке спавна
+  if (activeWaves.some(w => w.x > SPAWN_X - WAVE_MIN_GAP)) return;
   const wt = pickWaveType();
   el.style.opacity = '';
   el.style.transform = '';
@@ -8184,15 +8205,6 @@ async function playEndingSequence() {
     endingAudio.play().catch(()=>{});
   } catch(e) {}
 
-  // 3. музыка happy.mp3
-  try {
-    endingAudio = new Audio('music/happy.mp3');
-    endingAudio.loop = false;
-    endingBaseVolume = 0.55 * (typeof musicVolume === 'number' ? musicVolume : 0.5);
-    endingAudio.volume = endingBaseVolume;
-    endingAudio.play().catch(()=>{});
-  } catch(e) {}
-
   // 4. титры катятся (135с на анимации, можно перемотать кнопкой ⏩ в углу)
   // подставим реальное число пожертвованной мелочи в строку спонсоров
   const dCnt = document.getElementById('endingDonationCount');
@@ -8707,6 +8719,31 @@ if (houseModal) houseModal.addEventListener('click', e => { if (e.target === hou
 if (shopCloseBtn) shopCloseBtn.addEventListener('click', closeShop);
 if (shopModal) shopModal.addEventListener('click', e => { if (e.target === shopModal) closeShop(); });
 
+// ── ТЕНТАКЛИ УХОДЯТ ВДАЛЬ ПРИ ПРОКРУТКЕ ────────────────────
+{
+  const shopDialog = document.querySelector('.shop-dialog');
+  const tentacleL  = document.querySelector('.shop-edge-tentacle.left');
+  const tentacleR  = document.querySelector('.shop-edge-tentacle.right');
+  if (shopDialog && (tentacleL || tentacleR)) {
+    shopDialog.addEventListener('scroll', () => {
+      const s = shopDialog.scrollTop;
+      const y = -s;
+      // синусоида по горизонтали — органичное покачивание при прокрутке
+      const x = Math.sin(s * 0.012) * 22;
+      if (tentacleL) tentacleL.style.translate = `${-x}px ${y}px`;
+      if (tentacleR) tentacleR.style.translate = `${x}px ${y}px`;
+    }, { passive: true });
+    // сброс при каждом открытии магазина
+    const _origOpenShop = openShop;
+    openShop = function() {
+      _origOpenShop.apply(this, arguments);
+      shopDialog.scrollTop = 0;
+      if (tentacleL) tentacleL.style.translate = '0px 0px';
+      if (tentacleR) tentacleR.style.translate = '0px 0px';
+    };
+  }
+}
+
 function updateCollBalance(amount, sourceEl) {
   collBalance += amount;
   collBalEl.textContent = collBalance;
@@ -8918,6 +8955,18 @@ toggle18plus.addEventListener('change', () => { settings.adult = toggle18plus.ch
 const toggleSfx = document.getElementById('toggleSfx');
 if (toggleSfx) {
   toggleSfx.addEventListener('change', () => { sfxMuted = !toggleSfx.checked; });
+}
+
+const sfxVolSlider = document.getElementById('sfxVolSlider');
+const sfxVolValue  = document.getElementById('sfxVolValue');
+if (sfxVolSlider) {
+  sfxVolSlider.value = sfxVolume;
+  if (sfxVolValue) sfxVolValue.textContent = Math.round(sfxVolume * 100) + '%';
+  sfxVolSlider.addEventListener('input', e => {
+    sfxVolume = parseFloat(e.target.value);
+    localStorage.setItem('sfxVolume', String(sfxVolume));
+    if (sfxVolValue) sfxVolValue.textContent = Math.round(sfxVolume * 100) + '%';
+  });
 }
 
 const musicVolSlider = document.getElementById('musicVolSlider');
