@@ -14,6 +14,8 @@
 <link rel="preload" as="image" href="images/grandon.png">
 <link rel="preload" as="image" href="images/kami.png">
 <link rel="preload" as="image" href="images/cat-dance.gif">
+<link rel="preload" as="image" href="images/shylily-shylily-vibe.gif">
+<link rel="preload" as="image" href="images/jojo.gif">
 <style>
   :root {
     --sky: #b8e0ff;
@@ -1672,8 +1674,8 @@
   }
   .settings-close:hover { transform: translate(-1px,-1px); box-shadow: 5px 5px 0 rgba(45,27,105,0.18); }
 
-  /* ── DANCE CAT ── */
-  #danceCat {
+  /* ── SONG GIFS (dance cat, shylily, jojo) ── */
+  #danceCat, #shylilyDance, #jojoVibe {
     position: fixed;
     pointer-events: none;
     z-index: 9999;
@@ -1681,7 +1683,7 @@
     opacity: 0;
     transition: opacity 0.4s ease;
   }
-  #danceCat.show { opacity: 1; }
+  #danceCat.show, #shylilyDance.show, #jojoVibe.show { opacity: 1; }
 
   /* Юля стоит на своём месте в мире, а не на сцене */
   .world .girl-char { bottom: 8px !important; left: -20px; z-index: 7; }
@@ -5256,6 +5258,98 @@
 </head>
 <body class="dark">
 
+<!-- ============================================================ -->
+<!-- ⬇⬇⬇  ТЕКСТ КАРАОКЕ ДЛЯ song4.mp3 — ВСТАВЛЯТЬ СЮДА  ⬇⬇⬇   -->
+<!-- ============================================================ -->
+<!-- Формат строк (точно как у тебя в документе):                  -->
+<!--   00:04 - Ками: Diamond                                       -->
+<!--   2:00 - Юля: Baby, твои глаза                                -->
+<!-- Пустые строки и [КУПЛЕТ 1] и т.п. пропускаются автоматически. -->
+<!-- Поддерживаемые имена: Ками, Юля, Вася                         -->
+<script type="text/plain" id="song4LyricsBlock">
+00:04 - Ками: Diamond
+00:05 - Ками: Yung Trappa
+00:06 - Ками: MORGEN, ха-ха-ха
+00:08 - Ками: то, как ты трясёшь этим, я не могу поверить
+00:12 - Ками: я никогда не видел жопу как твоя.. господиии....
+00:13 - Юля: ХАХАХАХАХ
+00:16 - Ками: я курюю допинг, какой же ты кринжовый
+00:17 - Юля: ХВЫХЗПХЗВЗАЗХЗХАРЫППЗ
+00:20 - Ками: я выдыхаю дым прямо на тебя... 
+00:20 - Юля: 😭😭
+00:24 - Юля: То, как ты трясёшь этим, я не могу поверить
+00:28 - Юля: Я никогда не видел жопу как твоя
+00:32 - Юля: Я курю допинг, план — крутая тема
+00:36 - Юля: Я выдыхаю дым прямо на тебя
+00:40 - Ками: Я курю допинг, план — крутая тема
+00:44 - Ками: Моя десна немеет
+00:46 - Юля: (Первый)
+00:47 - Ками: Никто так не умеет
+00:48 - Юля: (Еу)
+00:48 - Ками: Мы любим делать деньги
+00:50 - Юля: (Кэш)
+00:50 - Ками: Наркотики и деньги
+00:52 - Юля: (Миллионы)
+00:53 - Ками: Не забывай о сексе
+00:54 - Юля: (18+, уууу)
+00:56 - Ками: Эй леди, сделайте мне минет
+00:58 - Юля: (Само собой, разумеется😏)
+01:00 - Ками: Малышка, ты в порядке? И я в порядке тоже 
+01:04 - Ками: Когда ты трясёшь жопой
+01:06 - Юля: (Жопой)
+01:06 - Ками: Своей хорошей жопой
+01:08 - Юля: (Жопой)
+01:08 - Ками: Своей упругой жопой
+01:10 - Юля: (Ееее)
+01:10 - Ками: Этой холодной ночью
+01:12 - Ками: Клянусь Богом, люблю секс и не хочу меняться
+01:16 - Юля: (Yung Trappa)
+01:16 - Юля: После позвони мне: 8-812
+01:20 - Юля: (Алё)
+01:20 - Ками: Клянусь Богом, люблю секс и не хочу меняться
+01:24 - Юля: (Yung Trappa)
+01:24 - Юля: После позвони мне: 8-812
+01:28 - Юля: Когда ты трясёшь этим, я не могу поверить
+01:32 - Ками: Я никогда не видел жопу как твоя...
+01:36 - Юля: Я курю допинг, план — крутая тема
+01:40 - Ками: Я выдыхаю дым прямо на тебя
+01:44 - Юля: Когда ты трясёшь этим, я не могу поверить
+01:48 - Ками: Я никогда не видел жопу как твоя😳
+01:52 - Юля: Я курю допинг, план — крутая тема
+01:56 - Ками: Я выдыхаю дым прямо на тебя
+2:00 - Юля: Baby, твои глаза, твои дреды
+2:04 - Юля: Люди вокруг нас всего лишь под мефом
+2:07 - Юля: мы на первом
+2:08 - Ками: (*вздох*)
+02:09 - Юля: Нам папа Trappa варит крэка
+02:11 - Ками: (Ма)
+02:12- Юля: С нами тут фанатки только дорогих челенов
+02:16- Юля: Детка, делай это будто бы не видит мама
+02:19 - Ками: (Вуууу)
+02:20 - Юля: Детка, делай это как последняя шалава
+02:23 - Ками: (Let’s goo)
+02:23 - Юля: Брюликам не важно, сколько ты на них сосала
+02:28 - Ками: (Или нет)
+02:29 - Юля: Ведь сосать — это талант
+02:32 - Юля: Это так, да, это так, сосать — это талант
+02:36 - Ками: Это так, да, это так, сосать — это талант
+02:40 - Юля: Это так, да, это так, сосать — это талант
+02:44 - Ками: Если хочешь быть богатой — начинай сосать
+02:47 - Юля: (Мой член)
+02:48 - Ками: Когда ты трясёшь этим, я не могу поверить
+02:52 - Юля: Я никогда не видел жопу как твоя
+02:56 - Ками: Я курю допинг, план — крутая тема
+03:00 - Юля: Я выдыхаю дым прямо на тебя
+03:04 - Ками: Когда ты трясёшь этим, я не могу поверить
+03:08 - Юля: Я никогда не видел жопу как твоя
+03:12 - Ками: Я курю допинг, план — крутая тема
+03:17 - Юля: Я выдыхаю дым прямо на тебя
+
+</script>
+<!-- ============================================================ -->
+<!-- ⬆⬆⬆  КОНЕЦ ТЕКСТА КАРАОКЕ ДЛЯ song4.mp3                  ⬆⬆⬆  -->
+<!-- ============================================================ -->
+
 <h1>Мальчик на побегушках(яяяяяяяяяя😭)</h1>
 <div class="game-layout" id="gameLayout">
 <div class="home-lot" id="homeLot">
@@ -5602,6 +5696,7 @@
     <div class="ending-credit-row"><span class="role">Главное «ку, уважаемые лохи»</span><span class="who">Юля</span></div>
     <div class="ending-credit-row"><span class="role">Закадровый голос</span><span class="who">Юля (молчит)</span></div>
     <div class="ending-credit-row"><span class="role">Спецэффекты плеска</span><span class="who">Claude (мысленно)</span></div>
+    <div class="ending-credit-row"><span class="role">Запись рыга для Васи 🎙️</span><span class="who">Форум (лично)</span></div>
     <div class="ending-credit-row"><span class="role">Дизайн ям</span><span class="who">Claude</span></div>
     <div class="ending-credit-row"><span class="role">Контроль качества Ками</span><span class="who">Юля лично</span></div>
     <div class="ending-credit-row"><span class="role">Главное оправдание</span><span class="who">привоз</span></div>
@@ -5643,6 +5738,7 @@
     <div class="ending-credit-row"><span class="role">Серьёзно</span><span class="who">это уже 70+ строк</span></div>
     <div class="ending-credit-row"><span class="role">Юля рядом</span><span class="who">наблюдает)</span></div>
     <div class="ending-credit-row"><span class="role">Ками рядом</span><span class="who">прилипчиво</span></div>
+    <div class="ending-credit-row"><span class="role">Идея для song4 🎶</span><span class="who">Ками (концепт)</span></div>
     <div class="ending-credit-row"><span class="role">Вася рядом</span><span class="who">🐶 рад что ты есть</span></div>
     <div class="ending-credit-row"><span class="role">Мальчик</span><span class="who">наконец отдыхает</span></div>
     <div class="ending-credit-spacer"></div>
@@ -5884,6 +5980,7 @@ const TRACKS = [
   { title: 'Song 1', file: 'music/song1.mp3', dur: 0 },
   { title: 'Song 2', file: 'music/song2.mp3', dur: 0 },
   { title: 'Song 3', file: 'music/song3.mp3', dur: 0 },
+  { title: 'Song 4', file: 'music/song4.mp3', dur: 0 },
 ];
 let currentTrack = 0;
 let playerPlaying = false;
@@ -6000,6 +6097,14 @@ const SONG_LYRICS = {
     { t: 162, who: 'kami',  text: "Alone tonight" },
     { t: 166, who: 'kami',  text: "I'm alone without your love, and I don't survive" },
   ],
+  3: [ // song4.mp3 — Ками + Юля (концепт Ками)
+    // ⬇️ ВСТАВЬ СЮДА свои строки в формате { t: секунды, who: 'kami'|'yulia', text: '...' }
+    // (пример формата — закомментирован, чтобы массив был валидным)
+    // { t:  4, who: 'kami',  text: '...' },
+    // { t:  5, who: 'kami',  text: '...' },
+    // { t:  8, who: 'kami',  text: '...' },
+    // и т.д. по таймингам из твоего документа
+  ],
   2: [ // song3.mp3 — Вася: "Are you ready" и "Forever, And ever", Ками — всё остальное
     { t:  33, who: 'vasya', text: 'Are you ready' },
     { t:  35, who: 'kami',  text: "It's been so long but now our time is here" },
@@ -6048,6 +6153,70 @@ let lyricsShown = new Set();
 function resetLyrics() {
   lyricsShown = new Set();
 }
+
+// ── ПАРСЕР КАРАОКЕ ИЗ ВНЕШНЕГО ТЕКСТОВОГО ФАЙЛА ─────────────
+// Чтобы НЕ хранить тексты песен в коде, читаем их из обычного .txt-файла,
+// который пользователь сам положит рядом с music/song4.mp3.
+// Поддерживаемый формат строк (точно как в документе):
+//   00:04 - Ками: Diamond
+//   2:00 - Юля: какой-то текст
+//   02:12- Юля: пробел перед "-" можно опустить
+// Пустые строки и строки [В КВАДРАТНЫХ СКОБКАХ] пропускаются.
+const LYRICS_SPEAKER_MAP = {
+  'ками':  'kami',
+  'юля':   'yulia',
+  'вася':  'vasya',
+  // на всякий случай и латинские варианты
+  'kami':  'kami',
+  'yulia': 'yulia',
+  'yulya': 'yulia',
+  'vasya': 'vasya',
+};
+function parseLyricsText(rawText) {
+  if (typeof rawText !== 'string') return [];
+  const lines = rawText.split(/\r?\n/);
+  // допускаем варианты пробелов вокруг "-" и ":", имя может содержать буквы и пробелы
+  const re = /^\s*(\d{1,2}):(\d{2})\s*[-–—]\s*([^:]+?)\s*:\s*(.+?)\s*$/;
+  const out = [];
+  for (const raw of lines) {
+    const trimmed = raw.trim();
+    if (!trimmed) continue;
+    if (trimmed.startsWith('[')) continue; // [КУПЛЕТ 1] и т.д.
+    const m = trimmed.match(re);
+    if (!m) continue;
+    const mins = parseInt(m[1], 10);
+    const secs = parseInt(m[2], 10);
+    if (isNaN(mins) || isNaN(secs)) continue;
+    const speakerKey = m[3].trim().toLowerCase();
+    const who = LYRICS_SPEAKER_MAP[speakerKey];
+    if (!who) continue;
+    const text = m[4].trim();
+    if (!text) continue;
+    out.push({ t: mins * 60 + secs, who, text });
+  }
+  // сортируем по времени на всякий случай
+  out.sort((a, b) => a.t - b.t);
+  return out;
+}
+
+// Караоке для song4 живёт в обычном <script type="text/plain" id="song4LyricsBlock">
+// прямо в HTML — туда нужно вставить свой готовый текст в формате
+//   00:04 - Ками: текст
+//   2:00 - Юля: текст
+// и больше ничего трогать не нужно.
+(function loadSong4LyricsFromInlineBlock() {
+  const el = document.getElementById('song4LyricsBlock');
+  if (!el) return;
+  const txt = (el.textContent || '').trim();
+  if (!txt) return;
+  const parsed = parseLyricsText(txt);
+  if (parsed.length > 0) {
+    SONG_LYRICS[3] = parsed;
+    console.log(`🎤 song4: караоке загружено (${parsed.length} строк)`);
+  } else {
+    console.warn('🎤 song4: текст в #song4LyricsBlock есть, но ни одной валидной строки не распозналось. Формат: "MM:SS - Имя: текст"');
+  }
+})();
 
 // ── ПОЛНОЕ СОХРАНЕНИЕ ПРОГРЕССА ──────────────────────────────
 const SAVE_KEY = 'gameState_v2';
@@ -6187,7 +6356,7 @@ function checkLyrics() {
       } else if (line.who === 'vasya') {
         if (vasyaFriends.length > 0) showVasyaSpeech(line.text);
       } else if (line.who === 'yulia') {
-        showBubble(line.text);
+        showBubble(line.text, { fromLyrics: true });
       }
     }
   });
@@ -6995,7 +7164,33 @@ function showBubbleNow(text) {
     setTimeout(() => girl.classList.remove('talk'), 400);
   }
 }
-function showBubble(text) {
+// для караоке: минимальная видимость одной реплики, чтобы быстрые подряд
+// строки (типа двух Юлиных на 01:16) не перетирали друг друга мгновенно
+let _lastBubbleAt = 0;
+const KARAOKE_BUBBLE_MIN_MS = 750;
+
+function showBubble(text, opts) {
+  // Во время song4 у нас идёт караоке и Юля «поёт» свои строки — рандомные
+  // фразы (из доставок, прыжков, событий) только мешают. Пускаем только те
+  // вызовы, что пришли из checkLyrics (они помечены opts.fromLyrics = true).
+  if (typeof audioEl !== 'undefined' && audioEl && playerPlaying && currentTrack === 3 && !(opts && opts.fromLyrics)) {
+    return;
+  }
+  if (opts && opts.fromLyrics) {
+    // если предыдущая караоке-реплика только что появилась — отложим эту
+    // ровно настолько, чтобы каждая висела минимум KARAOKE_BUBBLE_MIN_MS
+    const now = Date.now();
+    const minNext = _lastBubbleAt + KARAOKE_BUBBLE_MIN_MS;
+    if (now >= minNext) {
+      _lastBubbleAt = now;
+      showBubbleNow(text);
+    } else {
+      _lastBubbleAt = minNext; // резервируем слот, чтобы следующие реплики стекали ЗА этой
+      const delay = minNext - now;
+      setTimeout(() => showBubbleNow(text), delay);
+    }
+    return;
+  }
   if (typedActive) {
     bubbleQueue.push({ type: 'simple', text });
     return;
@@ -7992,7 +8187,7 @@ function renderShopFinishItem() {
   if (all) preloadEndingGifs();
 }
 
-// случайный «милый человек» в титрах — кого-то одного выбирает на каждом запуске финала
+// «милый человек» в титрах — выбираем без повторов, пока не пройдём всех, потом по кругу
 const ENDING_NICE_PERSON = [
   'Ками 💗',
   'Юля 😊',
@@ -8007,6 +8202,33 @@ const ENDING_NICE_PERSON = [
   'Катя 🌷',
   'ты (читающий это) 🥺',
 ];
+const ENDING_NICE_PERSON_LS_KEY = 'endingNicePersonShown';
+function loadShownNicePersons() {
+  try {
+    const raw = localStorage.getItem(ENDING_NICE_PERSON_LS_KEY);
+    if (!raw) return [];
+    const arr = JSON.parse(raw);
+    return Array.isArray(arr) ? arr.filter(x => typeof x === 'string') : [];
+  } catch(e) { return []; }
+}
+function saveShownNicePersons(arr) {
+  try { localStorage.setItem(ENDING_NICE_PERSON_LS_KEY, JSON.stringify(arr)); } catch(e) {}
+}
+function pickNextNicePerson() {
+  let shown = loadShownNicePersons();
+  // отфильтруем тех кого больше нет в списке (на случай если список менялся)
+  shown = shown.filter(x => ENDING_NICE_PERSON.includes(x));
+  let pool = ENDING_NICE_PERSON.filter(x => !shown.includes(x));
+  if (pool.length === 0) {
+    // прошли весь круг — начинаем заново
+    shown = [];
+    pool = ENDING_NICE_PERSON.slice();
+  }
+  const picked = pool[Math.floor(Math.random() * pool.length)];
+  shown.push(picked);
+  saveShownNicePersons(shown);
+  return picked;
+}
 const ENDING_GIF_FILES = [
   'cat-dance.gif','dance-cat.gif','happy.gif','happy_cry.gif','jojo.gif',
   'ai-oshino-vibing.gif','caily-dance.gif','korone.gif','neuro-evil-neuro.gif',
@@ -8119,11 +8341,7 @@ function spawnOneEndingGif() {
 
 function restartEndingSpawnIntervals() {
   // вызывается при смене скорости FF — перезапускает интервалы пропорционально
-  // НЕ создаём новые интервалы, если титры уже закончились (иначе FF после титров спавнит гифки)
-  if (!endingActive || !creditsRolling) {
-    stopEndingSpawns();
-    return;
-  }
+  if (!endingActive) return;
   const ffActive = endingFfBtn && endingFfBtn.classList.contains('active');
   const rate = ffActive ? FF_RATE : 1;
   if (endingSpawnIntervals.gif)  clearInterval(endingSpawnIntervals.gif);
@@ -8209,10 +8427,10 @@ async function playEndingSequence() {
   // подставим реальное число пожертвованной мелочи в строку спонсоров
   const dCnt = document.getElementById('endingDonationCount');
   if (dCnt) dCnt.textContent = (typeof looseDonations === 'number' ? looseDonations : 0);
-  // и случайного «милого человека» в соответствующую строку
+  // «милого человека» в соответствующую строку — берём из ротации без повторов
   const nicePersonEl = document.getElementById('endingNicePersonSlot');
   if (nicePersonEl) {
-    nicePersonEl.textContent = ENDING_NICE_PERSON[Math.floor(Math.random() * ENDING_NICE_PERSON.length)];
+    nicePersonEl.textContent = pickNextNicePerson();
   }
   await sleep2(400);
   creditsRolling = true;
@@ -9593,21 +9811,24 @@ if (settingsResetBtn) {
 }
 </script>
   <img id="danceCat" src="images/cat-dance.gif" alt="">
+  <img id="shylilyDance" src="images/shylily-shylily-vibe.gif" alt="">
+  <img id="jojoVibe" src="images/jojo.gif" alt="">
 
   <script>
-  // ── DANCE CAT SYSTEM ────────────────────────────────────────
-  const danceCatEl = document.getElementById('danceCat');
-  let catVisible = false;
-  let catHideTimer = null;
-  let catChanceTimer = null;
-  let catPlaySeconds = 0; // сколько секунд уже играет музыка в этой сессии
+  // ── SONG GIFS SYSTEM ────────────────────────────────────────
+  // Несколько «плавающих» гифок, которые подпрыгивают по экрану
+  // во время воспроизведения музыки. Каждая со своим шансом, длительностью,
+  // и бустами в «горячих» зонах (припевы) и на song4.
 
-  // припевы по трекам [start, end] в секундах — шанс x4 во время них
+  // припевы / насыщенные зоны по трекам [start, end] в секундах — шанс ×N во время них
   const CHORUS_RANGES = {
-    0: [[62,86],[110,134],[145,170]],   // song1
-    1: [[43,56],[95,121],[152,166]],    // song2
-    2: [[68,107],[131,151],[175,192]],  // song3
+    0: [[62,86],[110,134],[145,170]],         // song1
+    1: [[43,56],[95,121],[152,166]],          // song2
+    2: [[68,107],[131,151],[175,192]],        // song3
+    3: [[4,40],[62,76],[88,116],[168,200]],   // song4 — припевы и интенсивные секции
   };
+  // дополнительный буст для танцующего кота на самых «активных» моментах song4
+  const SONG4_EXTRA_HOT = [[62,76],[88,116],[168,200]];
 
   function isInChorus() {
     const ranges = CHORUS_RANGES[currentTrack];
@@ -9615,48 +9836,106 @@ if (settingsResetBtn) {
     const t = audioEl.currentTime;
     return ranges.some(([a,b]) => t >= a && t <= b);
   }
+  function isInSong4ExtraHot() {
+    if (currentTrack !== 3 || !audioEl) return false;
+    const t = audioEl.currentTime;
+    return SONG4_EXTRA_HOT.some(([a,b]) => t >= a && t <= b);
+  }
 
-  function showCat() {
-    if (catVisible) return;
-    catVisible = true;
-    // рандомная позиция по всему экрану (с отступами чтобы не вылезал за края)
+  // Каждая гифка — отдельный конфиг
+  const SONG_GIFS = [
+    {
+      id: 'danceCat',
+      base: 0.022, growth: 0.018, maxBase: 0.30,
+      song4Bump: 1.9,        // на song4 шанс ×1.9 поверх базы
+      chorusMult: 4,          // в припеве ×4
+      extraHotMult: 2.2,      // в «жоповых» окнах song4 — ещё ×2.2
+      durBase:   [4000, 7000],
+      durChorus: [7000, 11000],
+    },
+    {
+      id: 'shylilyDance',
+      base: 0.020, growth: 0.012, maxBase: 0.24,
+      song4Bump: 1.3,
+      chorusMult: 3,
+      extraHotMult: 1.0,
+      durBase:   [3500, 6500],
+      durChorus: [6000, 9500],
+    },
+    {
+      id: 'jojoVibe',
+      base: 0.020, growth: 0.012, maxBase: 0.24,
+      song4Bump: 1.3,
+      chorusMult: 3,
+      extraHotMult: 1.0,
+      durBase:   [3500, 6500],
+      durChorus: [6000, 9500],
+    },
+  ];
+
+  // состояние для каждой гифки
+  const songGifState = {};
+  SONG_GIFS.forEach(cfg => {
+    songGifState[cfg.id] = { visible: false, hideTimer: null, el: document.getElementById(cfg.id) };
+  });
+
+  let catPlaySeconds = 0; // сколько секунд уже играет музыка в этой сессии
+
+  function showSongGif(id) {
+    const cfg = SONG_GIFS.find(g => g.id === id);
+    const state = songGifState[id];
+    if (!cfg || !state || !state.el) return;
+    if (state.visible) return;
+    state.visible = true;
     const maxX = window.innerWidth  - 130;
     const maxY = window.innerHeight - 140;
     const x = 10 + Math.random() * Math.max(0, maxX - 10);
     const y = 10 + Math.random() * Math.max(0, maxY - 10);
-    danceCatEl.style.left = x + 'px';
-    danceCatEl.style.top  = y + 'px';
-    danceCatEl.style.transform = '';
-    danceCatEl.classList.add('show');
-    // во время припева висит дольше: 7–11с, иначе 4–7с
+    state.el.style.left = x + 'px';
+    state.el.style.top  = y + 'px';
+    state.el.style.transform = '';
+    state.el.classList.add('show');
     const inChorus = isInChorus();
-    const dur = inChorus
-      ? 7000 + Math.random() * 4000
-      : 4000 + Math.random() * 3000;
-    clearTimeout(catHideTimer);
-    catHideTimer = setTimeout(hideCat, dur);
+    const [dmin, dmax] = inChorus ? cfg.durChorus : cfg.durBase;
+    const dur = dmin + Math.random() * (dmax - dmin);
+    clearTimeout(state.hideTimer);
+    state.hideTimer = setTimeout(() => hideSongGif(id), dur);
   }
 
-  function hideCat() {
-    catVisible = false;
-    danceCatEl.classList.remove('show');
+  function hideSongGif(id) {
+    const state = songGifState[id];
+    if (!state) return;
+    state.visible = false;
+    if (state.el) state.el.classList.remove('show');
   }
 
-  function catTick() {
+  function hideAllSongGifs() {
+    SONG_GIFS.forEach(cfg => hideSongGif(cfg.id));
+  }
+
+  function songGifsTick() {
     if (!playerPlaying) return;
     catPlaySeconds++;
     const inChorus = isInChorus();
-    // базовый шанс 2%, растёт со временем, x4 во время припева
-    const base = Math.min(0.30, 0.02 + Math.floor(catPlaySeconds / 10) * 0.015);
-    const chance = inChorus ? Math.min(0.70, base * 4) : base;
-    if (!catVisible && Math.random() < chance) showCat();
+    const isSong4  = currentTrack === 3;
+    const extraHot = isInSong4ExtraHot();
+    SONG_GIFS.forEach(cfg => {
+      const state = songGifState[cfg.id];
+      if (!state || state.visible) return;
+      let chance = Math.min(cfg.maxBase, cfg.base + Math.floor(catPlaySeconds / 10) * cfg.growth);
+      if (isSong4)  chance *= cfg.song4Bump;
+      if (inChorus) chance *= cfg.chorusMult;
+      if (extraHot) chance *= cfg.extraHotMult;
+      chance = Math.min(0.85, chance);
+      if (Math.random() < chance) showSongGif(cfg.id);
+    });
   }
 
   // тикаем каждую секунду пока играет музыка
-  setInterval(catTick, 1000);
+  setInterval(songGifsTick, 1000);
 
   // при смене трека / паузе — сбрасываем накопленное время
-  audioEl.addEventListener('pause',  () => { catPlaySeconds = 0; hideCat(); });
+  audioEl.addEventListener('pause',  () => { catPlaySeconds = 0; hideAllSongGifs(); });
   audioEl.addEventListener('ended',  () => { catPlaySeconds = 0; });
   audioEl.addEventListener('seeked', () => { catPlaySeconds = 0; });
   </script>
