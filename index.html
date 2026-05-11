@@ -2429,14 +2429,18 @@
     padding: 7px 12px;
     border-radius: 999px;
     font-size: 12px;
-    transform: translateX(34px);
+    transform: translateX(-50%);
     z-index: 7;
+  }
+  .home-build-btn:not(:disabled):hover {
+    transform: translateX(-50%) translate(-1px, -1px);
   }
   .home-lot-progress {
     position: absolute;
     left: 14px;
     right: 14px;
-    bottom: 4px;
+    top: 8px;
+    bottom: auto;
     z-index: 6;
     display: none;
     gap: 4px;
@@ -3168,6 +3172,52 @@
     border-radius: 50%;
     background: rgba(109,40,217,0.18);
     pointer-events: none;
+  }
+  .shop-consumable-item.locked > *:not(.shop-lock-overlay) {
+    opacity: 0.18;
+    filter: blur(2px);
+    pointer-events: none;
+    user-select: none;
+  }
+  .shop-consumable-item.locked {
+    cursor: default;
+  }
+  .shop-consumable-item.locked:hover {
+    transform: none;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.08),
+      6px 6px 0 rgba(0,0,0,0.42),
+      inset 0 1px 0 rgba(244,114,182,0.18);
+  }
+  .shop-lock-overlay {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    border-radius: 12px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    pointer-events: none;
+    text-align: center;
+    padding: 12px;
+  }
+  .shop-consumable-item.locked .shop-lock-overlay {
+    display: flex;
+  }
+  .shop-lock-overlay-icon {
+    font-size: 28px;
+    line-height: 1;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+  }
+  .shop-lock-overlay-text {
+    font-size: 12px;
+    font-weight: 700;
+    color: #fef3c7;
+    line-height: 1.4;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+    opacity: 0.9;
   }
   @media (max-width: 760px) {
     .shop-consumables-grid { grid-template-columns: 1fr; }
@@ -5555,7 +5605,6 @@
     <div class="ending-credit-row"><span class="role">Контроль качества Васи</span><span class="who">ChatGPT</span></div>
     <div class="ending-credit-row"><span class="role">Контроль качества Ками</span><span class="who">Юля лично</span></div>
     <div class="ending-credit-row"><span class="role">Главное оправдание</span><span class="who">привоз</span></div>
-    <div class="ending-credit-row"><span class="role">Главное «мне всё равно»</span><span class="who">Юля (на самом деле нет)</span></div>
     <div class="ending-credit-row"><span class="role">Душнила-консультант</span><span class="who">ChatGPT</span></div>
     <div class="ending-credit-row"><span class="role">Антидушнила-консультант</span><span class="who">Claude</span></div>
     <div class="ending-credit-row"><span class="role">Менеджер монеток</span><span class="who">Claude</span></div>
@@ -5780,6 +5829,10 @@
           <span id="shopInsuranceText">Один раз спасет меня 😭😭надеюся</span>
         </div>
         <button class="house-action-btn" id="shopInsuranceBtn" type="button">купить</button>
+        <div class="shop-lock-overlay">
+          <span class="shop-lock-overlay-icon">🔒</span>
+          <span class="shop-lock-overlay-text">сначала купи домик для Юли</span>
+        </div>
       </div>
       <div class="shop-item shop-consumable-item cookie">
         <span class="shop-consumable-icon perk-cookie" aria-hidden="true"></span>
@@ -5788,6 +5841,10 @@
           <span id="shopCookieText">+12% к ловкости, очень вкусно!!!</span>
         </div>
         <button class="house-action-btn" id="shopCookieBtn" type="button">купить</button>
+        <div class="shop-lock-overlay">
+          <span class="shop-lock-overlay-icon">🔒</span>
+          <span class="shop-lock-overlay-text">сначала купи домик для Юли</span>
+        </div>
       </div>
     </div>
     <div class="shop-item shop-finish-item" style="margin-top:14px;border-color:#f9a8d4;background:linear-gradient(145deg, rgba(60,20,68,0.95), rgba(40,12,40,0.96));">
@@ -7514,8 +7571,8 @@ let housePermit = false;
 let houseStage = 0;
 let shopOpen = false;
 let shopAudio = null;
-const HOUSE_PERMIT_COST = 1800;
-const HOUSE_STAGE_COSTS = [900, 1600, 2600];
+const HOUSE_PERMIT_COST = 4000;
+const HOUSE_STAGE_COSTS = [2200, 3500, 5625];
 const gameLayout = document.getElementById('gameLayout');
 const housePanel = document.getElementById('housePanel');
 const houseBadge = document.getElementById('houseBadge');
@@ -7704,6 +7761,11 @@ function renderShopPerkItems() {
   boyPerksRow?.classList.toggle('show', perksUnlocked);
   if (statInsurance) statInsurance.textContent = deliveryInsurance;
   if (statCookie) statCookie.textContent = yuliaCookieBoost;
+
+  const perksLocked = houseStage < 3;
+  document.querySelector('.shop-consumable-item.insurance')?.classList.toggle('locked', perksLocked);
+  document.querySelector('.shop-consumable-item.cookie')?.classList.toggle('locked', perksLocked);
+
   if (shopInsuranceText) {
     shopInsuranceText.textContent = deliveryInsurance > 0
       ? `В запасе ${deliveryInsurance}/${DELIVERY_INSURANCE_MAX}. Один раз спасет меня 😭😭надеюся`
@@ -7714,7 +7776,7 @@ function renderShopPerkItems() {
     shopInsuranceBtn.textContent = full
       ? 'запас полон'
       : `${deliveryInsurance > 0 ? 'докупить' : 'взять'} ${DELIVERY_INSURANCE_COST}💰`;
-    shopInsuranceBtn.disabled = full || collBalance < DELIVERY_INSURANCE_COST;
+    shopInsuranceBtn.disabled = perksLocked || full || collBalance < DELIVERY_INSURANCE_COST;
   }
   if (shopCookieText) {
     shopCookieText.textContent = yuliaCookieBoost > 0
@@ -7723,7 +7785,7 @@ function renderShopPerkItems() {
   }
   if (shopCookieBtn) {
     shopCookieBtn.textContent = yuliaCookieBoost > 0 ? 'печенька уже работает' : `купить ${YULIA_COOKIE_COST}💰`;
-    shopCookieBtn.disabled = yuliaCookieBoost > 0 || collBalance < YULIA_COOKIE_COST;
+    shopCookieBtn.disabled = perksLocked || yuliaCookieBoost > 0 || collBalance < YULIA_COOKIE_COST;
   }
   creature?.classList.toggle('has-goods', deliveryInsurance > 0 || yuliaCookieBoost > 0);
   refreshPonyChanceLabels();
@@ -7817,7 +7879,6 @@ function renderHousePanel() {
   houseActionBtn.textContent = 'отправить в магазин';
   houseActionBtn.disabled = false;
   renderShopHouseItem();
-  renderHomeLot();
 }
 
 function openHouse() {
@@ -7907,6 +7968,7 @@ function renderShopFinishItem() {
   shopFinishBtn.disabled = !all || gameFinished || endingActive;
   shopFinishBtn.textContent = gameFinished ? 'игра уже пройдена (ещё раз?)' : (all ? 'пройти игру' : 'не хватает условий');
   if (gameFinished && all) shopFinishBtn.disabled = false;
+  if (all) preloadEndingGifs();
 }
 
 // случайный «милый человек» в титрах — кого-то одного выбирает на каждом запуске финала
@@ -7931,6 +7993,16 @@ const ENDING_GIF_FILES = [
   'anime-cute.gif','granny-dance.gif','hat-kid-a-hat-in-time.gif',
   'kotek.gif','shylily-shylily-vibe.gif'
 ];
+
+let endingGifsPreloaded = false;
+function preloadEndingGifs() {
+  if (endingGifsPreloaded) return;
+  endingGifsPreloaded = true;
+  ENDING_GIF_FILES.forEach(file => {
+    const img = new Image();
+    img.src = 'images/' + file;
+  });
+}
 function spawnJojoStack() {
   if (!endingGifs || !endingActive) return;
   // 8% шанс — DVD-режим (длинная цепочка с отскоком от стенок)
@@ -8112,8 +8184,14 @@ async function playEndingSequence() {
     endingAudio.play().catch(()=>{});
   } catch(e) {}
 
-  // 3. гифки появляются
-  spawnEndingGifs();
+  // 3. музыка happy.mp3
+  try {
+    endingAudio = new Audio('music/happy.mp3');
+    endingAudio.loop = false;
+    endingBaseVolume = 0.55 * (typeof musicVolume === 'number' ? musicVolume : 0.5);
+    endingAudio.volume = endingBaseVolume;
+    endingAudio.play().catch(()=>{});
+  } catch(e) {}
 
   // 4. титры катятся (135с на анимации, можно перемотать кнопкой ⏩ в углу)
   // подставим реальное число пожертвованной мелочи в строку спонсоров
@@ -8127,6 +8205,9 @@ async function playEndingSequence() {
   await sleep2(400);
   creditsRolling = true;
   endingCredits.classList.add('roll');
+
+  // 3. гифки появляются — после creditsRolling = true, иначе интервалы не стартуют
+  spawnEndingGifs();
 
   // заполняем мега-«Юля» — длинная стена «я», ~3-5 экранов прокрутки
   const yulyaMega = document.getElementById('endingYulyaMega');
