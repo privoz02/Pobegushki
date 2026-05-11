@@ -1308,6 +1308,303 @@
     box-shadow: 6px 6px 0 #7dd3fc, 10px 10px 0 rgba(45,27,105,0.16);
     transform: rotate(-0.7deg);
   }
+
+  /* ── VERSION STICKER + CHANGELOG ── */
+  .title-wrap {
+    position: relative;
+    display: inline-block;
+  }
+  .version-sticker {
+    position: absolute;
+    top: -14px;
+    right: -34px;
+    background: #fde047;
+    color: #2d1b69;
+    border: 3px solid #2d1b69;
+    border-radius: 999px;
+    padding: 5px 12px 6px;
+    font-size: 12px;
+    font-weight: 900;
+    font-family: 'Nunito', sans-serif;
+    cursor: pointer;
+    transform: rotate(8deg);
+    box-shadow: 4px 4px 0 rgba(45,27,105,0.22);
+    z-index: 5;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    letter-spacing: 0.02em;
+  }
+  .version-sticker:hover {
+    transform: rotate(8deg) scale(1.08);
+    box-shadow: 5px 5px 0 rgba(45,27,105,0.32);
+  }
+  .version-sticker:active {
+    transform: rotate(8deg) scale(0.96);
+    box-shadow: 2px 2px 0 rgba(45,27,105,0.22);
+  }
+  .version-sticker.is-new {
+    animation: versionStickerPulse 1.7s ease-in-out infinite;
+  }
+  @keyframes versionStickerPulse {
+    0%, 100% {
+      transform: rotate(8deg) scale(1);
+      box-shadow: 4px 4px 0 rgba(45,27,105,0.22);
+    }
+    50% {
+      transform: rotate(8deg) scale(1.10);
+      box-shadow: 5px 5px 0 rgba(45,27,105,0.32), 0 0 16px rgba(253,224,71,0.65);
+    }
+  }
+
+  .changelog-modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.55);
+    z-index: 1100;
+    padding: 18px;
+  }
+  .changelog-modal.show { display: flex; }
+  .changelog-dialog {
+    width: min(540px, 100%);
+    max-height: calc(100vh - 60px);
+    background: #fffdf2;
+    border: 3px solid #2d1b69;
+    border-radius: 18px;
+    box-shadow: 8px 8px 0 rgba(45,27,105,0.22);
+    padding: 22px 22px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .changelog-dialog h3 {
+    margin: 0;
+    font-size: 19px;
+    color: #2d1b69;
+    text-align: center;
+    letter-spacing: 0.01em;
+  }
+  .changelog-scroll {
+    overflow-y: auto;
+    padding-right: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scrollbar-width: thin;
+  }
+  .changelog-scroll::-webkit-scrollbar { width: 8px; }
+  .changelog-scroll::-webkit-scrollbar-thumb {
+    background: rgba(124,58,237,0.4); border-radius: 8px;
+  }
+  .changelog-entry {
+    background: rgba(196,181,253,0.18);
+    border: 2px solid #c4b5fd;
+    border-radius: 12px;
+    padding: 10px 13px 12px;
+  }
+  .changelog-version {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .changelog-version .ver {
+    font-size: 16px;
+    font-weight: 900;
+    color: #5b21b6;
+  }
+  .changelog-version .ver-date {
+    font-size: 11px;
+    color: #7c5cbf;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+  .changelog-entry ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #2d1b69;
+  }
+  .changelog-entry li {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    margin-bottom: 6px;
+  }
+  .changelog-entry li:last-child { margin-bottom: 0; }
+  .changelog-entry li > span { flex: 1; }
+  .changelog-icon {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: #7c3aed;
+  }
+  .changelog-close {
+    align-self: center;
+    border: 2.5px solid #2d1b69;
+    border-radius: 999px;
+    padding: 8px 24px;
+    background: #fde047;
+    color: #2d1b69;
+    font-weight: 900;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 rgba(45,27,105,0.22);
+    font-family: 'Nunito', sans-serif;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+  .changelog-close:hover {
+    transform: translate(-1px,-1px);
+    box-shadow: 5px 5px 0 rgba(45,27,105,0.28);
+  }
+
+  /* ── ROADMAP STICKER + MODAL ── */
+  .roadmap-sticker {
+    position: absolute;
+    top: -14px;
+    left: -34px;
+    background: #a78bfa;
+    color: #ffffff;
+    border: 3px solid #2d1b69;
+    border-radius: 999px;
+    padding: 5px 12px 6px;
+    font-size: 12px;
+    font-weight: 900;
+    font-family: 'Nunito', sans-serif;
+    cursor: pointer;
+    transform: rotate(-8deg);
+    box-shadow: -4px 4px 0 rgba(45,27,105,0.22);
+    z-index: 5;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    letter-spacing: 0.02em;
+    text-shadow: 0 1px 0 rgba(45,27,105,0.4);
+  }
+  .roadmap-sticker:hover {
+    transform: rotate(-8deg) scale(1.08);
+    box-shadow: -5px 5px 0 rgba(45,27,105,0.32);
+  }
+  .roadmap-sticker:active {
+    transform: rotate(-8deg) scale(0.96);
+    box-shadow: -2px 2px 0 rgba(45,27,105,0.22);
+  }
+
+  .roadmap-modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.55);
+    z-index: 1100;
+    padding: 18px;
+  }
+  .roadmap-modal.show { display: flex; }
+  .roadmap-dialog {
+    width: min(540px, 100%);
+    max-height: calc(100vh - 60px);
+    background: #fffdf2;
+    border: 3px solid #2d1b69;
+    border-radius: 18px;
+    box-shadow: 8px 8px 0 rgba(45,27,105,0.22);
+    padding: 22px 22px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .roadmap-dialog h3 {
+    margin: 0;
+    font-size: 19px;
+    color: #2d1b69;
+    text-align: center;
+    letter-spacing: 0.01em;
+  }
+  .roadmap-intro {
+    margin: 0;
+    font-size: 12px;
+    color: #7c5cbf;
+    text-align: center;
+    font-weight: 700;
+  }
+  .roadmap-scroll {
+    overflow-y: auto;
+    padding-right: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scrollbar-width: thin;
+  }
+  .roadmap-scroll::-webkit-scrollbar { width: 8px; }
+  .roadmap-scroll::-webkit-scrollbar-thumb {
+    background: rgba(167,139,250,0.45); border-radius: 8px;
+  }
+  .roadmap-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: rgba(167,139,250,0.14);
+    border: 2px solid #c4b5fd;
+    border-radius: 12px;
+    padding: 10px 13px 12px;
+  }
+  .roadmap-icon {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    color: #7c3aed;
+    margin-top: 2px;
+  }
+  .roadmap-icon-emoji {
+    /* для пунктов roadmap, где намеренно эмодзи (вайб важнее иконки) */
+    font-size: 22px;
+    line-height: 1;
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0;
+  }
+  .roadmap-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .roadmap-title {
+    font-size: 14px;
+    font-weight: 900;
+    color: #5b21b6;
+  }
+  .roadmap-desc {
+    font-size: 12px;
+    line-height: 1.45;
+    color: #2d1b69;
+  }
+  .roadmap-close {
+    align-self: center;
+    border: 2.5px solid #2d1b69;
+    border-radius: 999px;
+    padding: 8px 24px;
+    background: #a78bfa;
+    color: #ffffff;
+    font-weight: 900;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 rgba(45,27,105,0.22);
+    font-family: 'Nunito', sans-serif;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    text-shadow: 0 1px 0 rgba(45,27,105,0.4);
+  }
+  .roadmap-close:hover {
+    transform: translate(-1px,-1px);
+    box-shadow: 5px 5px 0 rgba(45,27,105,0.28);
+  }
   .card {
     position: relative;
     overflow: hidden;
@@ -4501,6 +4798,67 @@
     background: #4a2535; color: #f9a8d4; border-color: #f9a8d4;
     box-shadow: 4px 4px 0 rgba(0,0,0,0.45);
   }
+  /* changelog dark */
+  body.dark .version-sticker {
+    background: #f9a8d4; color: #2d1b69; border-color: #2d1b69;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.45);
+  }
+  body.dark .version-sticker.is-new {
+    animation: versionStickerPulseDark 1.7s ease-in-out infinite;
+  }
+  @keyframes versionStickerPulseDark {
+    0%, 100% {
+      transform: rotate(8deg) scale(1);
+      box-shadow: 4px 4px 0 rgba(0,0,0,0.45);
+    }
+    50% {
+      transform: rotate(8deg) scale(1.10);
+      box-shadow: 5px 5px 0 rgba(0,0,0,0.55), 0 0 18px rgba(249,168,212,0.7);
+    }
+  }
+  body.dark .changelog-modal { background: rgba(0,0,0,0.65); }
+  body.dark .changelog-dialog {
+    background: #251c4a; border-color: #f9a8d4;
+    box-shadow: 9px 9px 0 rgba(0,0,0,0.55);
+  }
+  body.dark .changelog-dialog h3 { color: #f0e6ff; }
+  body.dark .changelog-entry {
+    background: rgba(124,58,237,0.18);
+    border-color: rgba(244,114,182,0.35);
+  }
+  body.dark .changelog-version .ver { color: #f9a8d4; }
+  body.dark .changelog-version .ver-date { color: rgba(244,114,182,0.7); }
+  body.dark .changelog-entry ul { color: #fef3c7; }
+  body.dark .changelog-icon { color: #f9a8d4; }
+  body.dark .changelog-close {
+    background: #4a2535; color: #f9a8d4; border-color: #f9a8d4;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.45);
+  }
+  /* roadmap dark */
+  body.dark .roadmap-sticker {
+    background: #c084fc; color: #1a1430; border-color: #2d1b69;
+    box-shadow: -4px 4px 0 rgba(0,0,0,0.45);
+    text-shadow: none;
+  }
+  body.dark .roadmap-modal { background: rgba(0,0,0,0.65); }
+  body.dark .roadmap-dialog {
+    background: #251c4a; border-color: #c084fc;
+    box-shadow: 9px 9px 0 rgba(0,0,0,0.55);
+  }
+  body.dark .roadmap-dialog h3 { color: #f0e6ff; }
+  body.dark .roadmap-intro { color: #b9a8e8; }
+  body.dark .roadmap-item {
+    background: rgba(124,58,237,0.22);
+    border-color: rgba(192,132,252,0.4);
+  }
+  body.dark .roadmap-icon  { color: #c084fc; }
+  body.dark .roadmap-title { color: #c084fc; }
+  body.dark .roadmap-desc  { color: #fef3c7; }
+  body.dark .roadmap-close {
+    background: #4a3f7a; color: #f0e6ff; border-color: #c084fc;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.45);
+    text-shadow: none;
+  }
   body.dark .speed-btn {
     background: rgba(40,32,76,0.9); border-color: #c084fc; color: #c084fc;
   }
@@ -5350,7 +5708,11 @@
 <!-- ⬆⬆⬆  КОНЕЦ ТЕКСТА КАРАОКЕ ДЛЯ song4.mp3                  ⬆⬆⬆  -->
 <!-- ============================================================ -->
 
-<h1>Мальчик на побегушках(яяяяяяяяяя😭)</h1>
+<div class="title-wrap">
+  <button class="roadmap-sticker" id="roadmapSticker" type="button" title="что в планах">🗺️ план</button>
+  <h1>Мальчик на побегушках(яяяяяяяяяя😭)</h1>
+  <button class="version-sticker" id="versionSticker" type="button" title="история обновлений">v1.1</button>
+</div>
 <div class="game-layout" id="gameLayout">
 <div class="home-lot" id="homeLot">
   <div class="home-lot-meadow"></div>
@@ -5789,6 +6151,99 @@
     <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>
   </svg>
 </button>
+
+<!-- CHANGELOG MODAL -->
+<div class="changelog-modal" id="changelogModal">
+  <div class="changelog-dialog">
+    <h3>история обновлений</h3>
+    <div class="changelog-scroll">
+      <div class="changelog-entry">
+        <div class="changelog-version">
+          <span class="ver">v1.1</span>
+          <span class="ver-date">11 мая 2026</span>
+        </div>
+        <ul>
+          <li>
+            <svg class="changelog-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
+            <span>добавлена song4 — по гениальной идее Ками</span>
+          </li>
+          <li>
+            <svg class="changelog-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6z"/><path d="M19 14l.7 2L21.5 16.5l-1.8.7L19 19l-.7-1.8L16.5 16.5l1.8-.7z"/></svg>
+            <span>во время музыки теперь летают разные гифки (cat-dance / shylily / jojo) с разными шансами</span>
+          </li>
+          <li>
+            <svg class="changelog-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="8" y1="10" x2="16" y2="10"/></svg>
+            <span>Юля больше не поёт сама с собой во время song4, если Ками нет в комнате</span>
+          </li>
+          <li>
+            <svg class="changelog-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3.6" cy="6"  r="1.1"/><circle cx="3.6" cy="12" r="1.1"/><circle cx="3.6" cy="18" r="1.1"/></svg>
+            <span>теперь есть история обновлений (вот эта!) и план на будущее — наверху страницы появились два стикера</span>
+          </li>
+        </ul>
+      </div>
+      <div class="changelog-entry">
+        <div class="changelog-version">
+          <span class="ver">v1.0</span>
+          <span class="ver-date">11 мая 2026 · релиз</span>
+        </div>
+        <ul>
+          <li>
+            <svg class="changelog-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15 8.5 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 9 8.5"/></svg>
+            <span>релиз игры</span>
+          </li>
+          <li>
+            <svg class="changelog-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="6.5" y1="9" x2="6.5" y2="15"/><line x1="10" y1="6" x2="10" y2="18"/><line x1="13.5" y1="4" x2="13.5" y2="20"/><line x1="17" y1="7" x2="17" y2="17"/><line x1="20.5" y1="10" x2="20.5" y2="14"/></svg>
+            <span>благодарность Форуму за звук рыга для Васи — добавлена в титры</span>
+          </li>
+          <li>
+            <svg class="changelog-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+            <span>«милый человек» в титрах больше не выбирается одинаково — ротация без повторов, пока не пройдёт весь круг</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <button class="changelog-close" id="changelogClose" type="button">закрыть</button>
+  </div>
+</div>
+
+<!-- ROADMAP MODAL -->
+<div class="roadmap-modal" id="roadmapModal">
+  <div class="roadmap-dialog">
+    <h3>что в планах 🗺️</h3>
+    <p class="roadmap-intro">то шо крутится в голове, сделаю обязательна:</p>
+    <div class="roadmap-scroll">
+      <div class="roadmap-item">
+        <span class="roadmap-icon-emoji">😳</span>
+        <div class="roadmap-body">
+          <div class="roadmap-title">18+ DLC</div>
+          <div class="roadmap-desc">тот самый переключатель в настройках перестанет быть «в разработке»…</div>
+        </div>
+      </div>
+      <div class="roadmap-item">
+        <span class="roadmap-icon-emoji">🛒</span>
+        <div class="roadmap-body">
+          <div class="roadmap-title">новые расходники и штучки в магазине</div>
+          <div class="roadmap-desc">у Джеффа как-то бедно пока хд</div>
+        </div>
+      </div>
+      <div class="roadmap-item">
+        <span class="roadmap-icon-emoji">🔊</span>
+        <div class="roadmap-body">
+          <div class="roadmap-title">звуки для предметов с полки Джеффа</div>
+          <div class="roadmap-desc">сейчас полка молчит — каждая штука должна как-то звучать при тыке</div>
+        </div>
+      </div>
+      <div class="roadmap-item">
+        <span class="roadmap-icon-emoji">💬</span>
+        <div class="roadmap-body">
+          <div class="roadmap-title">новый звук для Камииии</div>
+          <div class="roadmap-desc">сейчас у неё один звук, нужен еще один особенный..</div>
+        </div>
+      </div>
+    </div>
+    <button class="roadmap-close" id="roadmapClose" type="button">закрыть</button>
+  </div>
+</div>
 
 <!-- SETTINGS MODAL -->
 <div class="settings-modal" id="settingsModal">
@@ -9172,6 +9627,59 @@ settingsBtn.addEventListener('click', () => settingsModal.classList.add('show'))
 settingsClose.addEventListener('click', () => settingsModal.classList.remove('show'));
 settingsModal.addEventListener('click', e => { if (e.target === settingsModal) settingsModal.classList.remove('show'); });
 toggle18plus.addEventListener('change', () => { settings.adult = toggle18plus.checked; });
+
+// ── CHANGELOG / VERSION STICKER ─────────────────────────────
+const CURRENT_VERSION = 'v1.1';
+const CHANGELOG_LS_KEY = 'lastSeenVersion';
+const versionSticker = document.getElementById('versionSticker');
+const changelogModal = document.getElementById('changelogModal');
+const changelogClose = document.getElementById('changelogClose');
+
+function markVersionSeen() {
+  try { localStorage.setItem(CHANGELOG_LS_KEY, CURRENT_VERSION); } catch(e) {}
+  if (versionSticker) versionSticker.classList.remove('is-new');
+}
+function openChangelog() {
+  if (!changelogModal) return;
+  changelogModal.classList.add('show');
+  markVersionSeen();
+}
+function closeChangelog() {
+  if (changelogModal) changelogModal.classList.remove('show');
+}
+if (versionSticker) versionSticker.addEventListener('click', openChangelog);
+if (changelogClose) changelogClose.addEventListener('click', closeChangelog);
+if (changelogModal) {
+  changelogModal.addEventListener('click', e => {
+    if (e.target === changelogModal) closeChangelog();
+  });
+}
+// если игрок ещё не открывал именно эту версию — стикер пульсирует
+try {
+  const lastSeen = localStorage.getItem(CHANGELOG_LS_KEY);
+  if (lastSeen !== CURRENT_VERSION && versionSticker) {
+    versionSticker.classList.add('is-new');
+  }
+} catch(e) {}
+
+// ── ROADMAP ─────────────────────────────────────────────────
+const roadmapSticker = document.getElementById('roadmapSticker');
+const roadmapModal   = document.getElementById('roadmapModal');
+const roadmapClose   = document.getElementById('roadmapClose');
+function openRoadmap() {
+  if (!roadmapModal) return;
+  roadmapModal.classList.add('show');
+}
+function closeRoadmap() {
+  if (roadmapModal) roadmapModal.classList.remove('show');
+}
+if (roadmapSticker) roadmapSticker.addEventListener('click', openRoadmap);
+if (roadmapClose)   roadmapClose.addEventListener('click', closeRoadmap);
+if (roadmapModal) {
+  roadmapModal.addEventListener('click', e => {
+    if (e.target === roadmapModal) closeRoadmap();
+  });
+}
 
 const toggleSfx = document.getElementById('toggleSfx');
 if (toggleSfx) {
