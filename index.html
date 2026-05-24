@@ -8387,50 +8387,67 @@
   .shop-shelf .shop-tip-jar b {
     font-size: 12px;
   }
-  .trinket-key::before {
-    content: '';
-    position: absolute;
-    left: 8px;
-    top: 20px;
-    width: 20px;
-    height: 20px;
-    border: 5px solid #d6b85b;
-    border-radius: 50%;
-    box-shadow: 20px 8px 0 -6px #d6b85b, 31px 8px 0 -7px #d6b85b;
+  /* ключ-тринкет заменён на картинку mimimi.png (от подруги), кликабельна */
+  .trinket-key {
+    background: url('images/mimimi.png') center/contain no-repeat;
+    cursor: pointer;
+    pointer-events: auto;
+    /* чуть правее — чтобы не задевать хитбокс тентаклей слева */
+    left: 14px;
+    transition: transform 0.18s cubic-bezier(.2,1.6,.3,1), filter 0.2s;
   }
-  .trinket-key::after {
-    content: '';
-    position: absolute;
-    left: 25px;
-    top: 32px;
-    width: 30px;
-    height: 6px;
-    border-radius: 999px;
-    background: #d6b85b;
-    transform: rotate(10deg);
+  .trinket-key::before,
+  .trinket-key::after { content: none; }
+  .trinket-key:hover {
+    transform: translateY(-2px) scale(1.07);
+    filter: drop-shadow(0 0 7px rgba(244,114,182,0.65));
   }
-  .trinket-bottle::before {
-    content: '';
-    position: absolute;
-    left: 13px;
-    bottom: 12px;
-    width: 26px;
-    height: 34px;
-    border: 3px solid #9dd6ff;
-    border-radius: 10px 10px 13px 13px;
-    background: linear-gradient(180deg, rgba(125,211,252,0.2), rgba(124,58,237,0.34));
-    box-shadow: inset 0 -11px 0 rgba(244,114,182,0.28);
+  .trinket-key:active { transform: scale(0.93); }
+  /* «приютить Ками» — она умиляется: swap на mimimicute.png + «поп» */
+  .trinket-key.cute {
+    background-image: url('images/mimimicute.png');
+    animation: trinketCutePop 0.5s ease;
   }
-  .trinket-bottle::after {
-    content: '';
+  @keyframes trinketCutePop {
+    0%   { transform: scale(0.82) rotate(-7deg); }
+    55%  { transform: scale(1.2) rotate(5deg); }
+    100% { transform: scale(1) rotate(0); }
+  }
+  .trinket-heart {
     position: absolute;
-    left: 19px;
-    top: 5px;
-    width: 14px;
-    height: 14px;
-    border: 3px solid #9dd6ff;
-    border-bottom: 0;
-    border-radius: 7px 7px 0 0;
+    pointer-events: none;
+    font-size: 15px;
+    line-height: 1;
+    animation: trinketHeartFloat 1.3s ease-out forwards;
+    z-index: 6;
+  }
+  @keyframes trinketHeartFloat {
+    0%   { opacity: 0; transform: translateY(2px) scale(0.4); }
+    20%  { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-48px) scale(1.15); }
+  }
+  /* бутылочка-тринкет заменена на картинку grgrgr.png, кликабельна */
+  .trinket-bottle {
+    background: url('images/grgrgr.png') center/contain no-repeat;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: transform 0.18s cubic-bezier(.2,1.6,.3,1), filter 0.2s;
+  }
+  .trinket-bottle::before,
+  .trinket-bottle::after { content: none; }
+  .trinket-bottle:hover {
+    transform: translateY(-2px) scale(1.07);
+    filter: drop-shadow(0 0 7px rgba(253,160,71,0.7));
+  }
+  .trinket-bottle:active { transform: scale(0.93); }
+  /* при нажатии «закипает» — тряска, картинка мигает между grgrgrhot/grgrgrveyhot (через JS) */
+  .trinket-bottle.grgrgr-anim {
+    animation: grgrgrShake 0.16s ease-in-out infinite;
+  }
+  @keyframes grgrgrShake {
+    0%, 100% { transform: translateX(0) rotate(0); }
+    25%      { transform: translateX(-2px) rotate(-5deg) scale(1.06); }
+    75%      { transform: translateX(2px)  rotate(5deg)  scale(1.09); }
   }
   .trinket-orb::before {
     content: '';
@@ -9151,7 +9168,7 @@
 <div class="title-wrap">
   <button class="roadmap-sticker" id="roadmapSticker" type="button" title="что в планах">🗺️ план</button>
   <h1>Мальчик на побегушках(яяяяяяяяяя😭)</h1>
-  <button class="version-sticker" id="versionSticker" type="button" title="история обновлений">v1.2</button>
+  <button class="version-sticker" id="versionSticker" type="button" title="история обновлений">v1.2.1</button>
 </div>
 <div class="game-layout" id="gameLayout">
 <div class="home-lot" id="homeLot">
@@ -9735,6 +9752,18 @@
   <div class="changelog-dialog">
     <h3>история обновлений</h3>
     <div class="changelog-scroll">
+      <div class="changelog-entry">
+        <div class="changelog-version">
+          <span class="ver">v1.2.1</span>
+          <span class="ver-date">25 мая 2026</span>
+        </div>
+        <ul>
+          <li>
+            <svg class="changelog-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <span>в магазинчике появились <b>мимишные друзья</b>.....</span>
+          </li>
+        </ul>
+      </div>
       <div class="changelog-entry">
         <div class="changelog-version">
           <span class="ver">v1.2</span>
@@ -12619,6 +12648,69 @@ if (shopTipJar) {
     void shopTipJar.offsetWidth;
     shopTipJar.classList.add('drop');
     showJeffTouchFace(2100);
+  });
+}
+
+// клик по mimimi-тринкету: «приютить Ками» — она умиляется (mimimicute.png) + сердечки
+const mimimiTrinket = document.querySelector('.shop-trinket.trinket-key');
+if (mimimiTrinket) {
+  let mimimiCuteTimer = null;
+  mimimiTrinket.addEventListener('click', e => {
+    e.stopPropagation();
+    mimimiTrinket.classList.remove('cute');
+    void mimimiTrinket.offsetWidth; // рестарт анимации «поп»
+    mimimiTrinket.classList.add('cute');
+    const hearts = ['💗', '💕', '💞'];
+    for (let i = 0; i < 4; i++) {
+      const h = document.createElement('span');
+      h.className = 'trinket-heart';
+      h.textContent = hearts[i % hearts.length];
+      h.style.left = (8 + Math.random() * 30) + 'px';
+      h.style.top  = (2 + Math.random() * 8) + 'px';
+      h.style.animationDelay = (i * 0.08) + 's';
+      mimimiTrinket.appendChild(h);
+      setTimeout(() => h.remove(), 1400 + i * 90);
+    }
+    clearTimeout(mimimiCuteTimer);
+    mimimiCuteTimer = setTimeout(() => mimimiTrinket.classList.remove('cute'), 2600);
+  });
+}
+
+// клик по grgrgr-тринкету: «закипает» — тряска + мигание grgrgrhot / grgrgrveyhot
+const grgrgrTrinket = document.querySelector('.shop-trinket.trinket-bottle');
+if (grgrgrTrinket) {
+  // предзагрузка кадров, чтобы не мигало пустотой при первом клике
+  ['images/grgrgrhot.png', 'images/grgrgrveyhot.png'].forEach(s => { const im = new Image(); im.src = s; });
+  let grgrgrEndTimer = null, grgrgrFlip = null, grgrgrSound = null;
+  const stopGrgrgrSound = () => {
+    if (grgrgrSound) { try { grgrgrSound.pause(); grgrgrSound.currentTime = 0; } catch (e) {} grgrgrSound = null; }
+  };
+  grgrgrTrinket.addEventListener('click', e => {
+    e.stopPropagation();
+    grgrgrTrinket.classList.add('grgrgr-anim');
+    // звук «закипания» — стартует с кликом и глушится в конце анимации (подогнан под 1.3с)
+    stopGrgrgrSound();
+    if (!muted && !sfxMuted) {
+      try {
+        grgrgrSound = new Audio('music/bz.mp3');
+        grgrgrSound.volume = Math.min(1, 0.85 * sfxVolume);
+        grgrgrSound.play().catch(() => {});
+      } catch (e) { grgrgrSound = null; }
+    }
+    const frames = ['images/grgrgrhot.png', 'images/grgrgrveyhot.png'];
+    let i = 0;
+    clearInterval(grgrgrFlip);
+    grgrgrFlip = setInterval(() => {
+      grgrgrTrinket.style.backgroundImage = `url('${frames[i % frames.length]}')`;
+      i++;
+    }, 150);
+    clearTimeout(grgrgrEndTimer);
+    grgrgrEndTimer = setTimeout(() => {
+      clearInterval(grgrgrFlip);
+      grgrgrTrinket.classList.remove('grgrgr-anim');
+      grgrgrTrinket.style.backgroundImage = ''; // вернуть базовую grgrgr.png
+      stopGrgrgrSound(); // звук заканчивается вместе с анимацией
+    }, 1300);
   });
 }
 
@@ -15939,7 +16031,7 @@ toggle18plus.addEventListener('change', () => {
 renderAdultSetting();
 
 // ── CHANGELOG / VERSION STICKER ─────────────────────────────
-const CURRENT_VERSION = 'v1.2';
+const CURRENT_VERSION = 'v1.2.1';
 const CHANGELOG_LS_KEY = 'lastSeenVersion';
 const versionSticker = document.getElementById('versionSticker');
 const changelogModal = document.getElementById('changelogModal');
