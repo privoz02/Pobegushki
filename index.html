@@ -10776,6 +10776,7 @@ function checkLyrics() {
 const CUTE_GIRLS_PER_SIDE = 3;
 const cuteGirlsBusy = { left: [false, false, false], right: [false, false, false] };
 let cuteGirlsPending = []; // id отложенных спавнов (для отмены при перемотке/сбросе)
+let cuteGirlsGen = 0;      // «поколение» — растёт при очистке, чтобы старые таймеры не трогали новые слоты
 
 // Караоке-строки Юли — просто показываем текст. Гифки cute-girls триггерятся
 // отдельно по audioEl.currentTime (см. SONG5_GIF_EVENTS ниже).
@@ -10839,6 +10840,7 @@ function spawnCuteGirl(side) {
   const busy = cuteGirlsBusy[side];
   const slotIdx = busy.findIndex(b => !b);
   if (slotIdx === -1) return;
+  const gen = cuteGirlsGen; // фиксируем поколение этой гифки
   busy[slotIdx] = true;
   const slot = document.createElement('div');
   slot.className = `cute-girls-slot ${side}-${slotIdx}`;
@@ -10852,16 +10854,18 @@ function spawnCuteGirl(side) {
   tower.appendChild(slot);
   requestAnimationFrame(() => requestAnimationFrame(() => img.classList.add('show')));
   setTimeout(() => {
+    if (gen !== cuteGirlsGen) return; // нас уже очистили — слот занят другой гифкой, не трогаем
     img.classList.add('fade-out');
     img.classList.remove('show');
     setTimeout(() => {
       if (slot.parentNode) slot.parentNode.removeChild(slot);
-      busy[slotIdx] = false;
+      if (gen === cuteGirlsGen) busy[slotIdx] = false; // освобождаем слот только если поколение не менялось
     }, 320);
   }, 3600);
 }
 
 function cuteGirlsResetBusy() {
+  cuteGirlsGen++; // помечаем все ранее заспавненные гифки как «устаревшие»
   cuteGirlsBusy.left.fill(false);
   cuteGirlsBusy.right.fill(false);
 }
