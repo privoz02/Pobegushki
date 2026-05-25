@@ -950,6 +950,47 @@
     font-size: 18px; font-weight: 900; color: var(--text);
     display: flex; align-items: center; gap: 6px;
   }
+  .collection-tools {
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end;
+  }
+  .coll-sort {
+    appearance: none;
+    -webkit-appearance: none;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 900;
+    padding: 6px 28px 6px 30px;
+    border-radius: 10px;
+    border: 2px solid #c084fc;
+    color: #6b21a8;
+    cursor: pointer;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a855f7' stroke-width='3' stroke-linecap='round'%3E%3Cline x1='4' y1='6' x2='20' y2='6'/%3E%3Cline x1='4' y1='12' x2='14' y2='12'/%3E%3Cline x1='4' y1='18' x2='8' y2='18'/%3E%3C/svg%3E") 9px center / 14px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a855f7' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") right 9px center / 12px no-repeat,
+      linear-gradient(180deg, #f7f0ff, #ebdcff);
+    box-shadow: 2px 2px 0 rgba(124,58,237,0.20);
+    transition: transform 0.12s, box-shadow 0.12s, border-color 0.15s;
+  }
+  .coll-sort:hover {
+    border-color: #a855f7;
+    transform: translateY(-1px);
+    box-shadow: 3px 3px 0 rgba(124,58,237,0.28);
+  }
+  .coll-sort:active {
+    transform: translateY(1px);
+    box-shadow: 1px 1px 0 rgba(124,58,237,0.2);
+  }
+  body.dark .coll-sort {
+    border-color: #7c3aed;
+    color: #e9d5ff;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c084fc' stroke-width='3' stroke-linecap='round'%3E%3Cline x1='4' y1='6' x2='20' y2='6'/%3E%3Cline x1='4' y1='12' x2='14' y2='12'/%3E%3Cline x1='4' y1='18' x2='8' y2='18'/%3E%3C/svg%3E") 9px center / 14px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c084fc' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") right 9px center / 12px no-repeat,
+      linear-gradient(180deg, #2a1f4d, #1e1538);
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.4);
+  }
+  .coll-sort option { background: #1e1538; color: #e9d5ff; }
+  body:not(.dark) .coll-sort option { background: #f7f0ff; color: #6b21a8; }
   .collection-merge-hint {
     font-size: 11px;
     font-weight: 700;
@@ -3590,6 +3631,33 @@
     transition: transform 0.18s ease;
     font-family: inherit;
   }
+  /* счётчик прогресса коллекции кубков в заголовке полки */
+  .trophy-progress {
+    font-size: 12px;
+    font-weight: 800;
+    color: #b08bd8;
+    margin-left: 6px;
+    white-space: nowrap;
+  }
+  .trophy-progress.complete { color: #f59e0b; }
+  body.dark .trophy-progress { color: #c4a8e8; }
+  body.dark .trophy-progress.complete { color: #fbbf24; }
+  /* бейдж ×N на повторных кубках */
+  .trophy-dup-badge {
+    position: absolute;
+    top: -4px;
+    right: 4px;
+    z-index: 3;
+    font-size: 10px;
+    font-weight: 900;
+    color: #2a1410;
+    background: linear-gradient(180deg, #fde047, #d4a020);
+    border: 1.5px solid #fbbf24;
+    border-radius: 999px;
+    padding: 1px 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    pointer-events: none;
+  }
   .house-trophy:hover { transform: translateY(-4px); }
   .trophy-cup {
     width: 42px;
@@ -4857,6 +4925,26 @@
     background: linear-gradient(180deg, transparent, rgba(253,224,71,0.7), transparent);
     box-shadow: 0 0 12px rgba(253,224,71,0.4);
   }
+  /* === блок «Пройти игру» — выделяем как финальную цель === */
+  .shop-finish-item {
+    position: relative;
+    border-radius: 16px;
+    box-shadow:
+      0 0 0 1px rgba(253,224,71,0.28),
+      0 0 22px rgba(249,168,212,0.38),
+      inset 0 0 28px rgba(124,58,237,0.16);
+    animation: finishGoalGlow 2.8s ease-in-out infinite;
+  }
+  @keyframes finishGoalGlow {
+    0%, 100% { box-shadow: 0 0 0 1px rgba(253,224,71,0.26), 0 0 18px rgba(249,168,212,0.32), inset 0 0 28px rgba(124,58,237,0.14); }
+    50%      { box-shadow: 0 0 0 1px rgba(253,224,71,0.50), 0 0 34px rgba(249,168,212,0.60), inset 0 0 32px rgba(124,58,237,0.22); }
+  }
+  .shop-finish-item strong {
+    font-size: 17px;
+    letter-spacing: 0.02em;
+  }
+  /* строки-условия повыше и поразборчивее */
+  .shop-finish-item .shop-cond { padding: 7px 0; }
   /* условия победы — кастомные плашки вместо ✅/⬜ */
   .shop-cond {
     display: flex;
@@ -4865,16 +4953,16 @@
     padding: 6px 0;
     font-size: 13px;
     font-weight: 700;
-    color: #b8a8d8;
+    color: #d6c6f2;
     transition: color 0.2s;
   }
   .shop-cond + .shop-cond {
     border-top: 1px dashed rgba(124,58,237,0.18);
   }
   .shop-cond .shop-cond-icon {
-    width: 22px;
-    height: 22px;
-    border-radius: 6px;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
     border: 2px solid #4a3870;
     background: linear-gradient(180deg, rgba(20,14,42,0.7), rgba(10,7,24,0.85));
     display: inline-flex;
@@ -4895,6 +4983,23 @@
     box-shadow:
       0 0 14px rgba(253,224,71,0.55),
       inset 0 1px 0 rgba(255,255,255,0.4);
+  }
+  /* картинка-иконка условия (напр. lemonguy.png / lemonguy1.png для оплаты) —
+     в такой же рамке-плашке, как галочки, просто заполняет её */
+  .shop-cond .shop-cond-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 5px;
+  }
+  /* увеличение иконки при наведении (и галочка, и картинка) */
+  .shop-cond .shop-cond-icon {
+    position: relative;
+    cursor: pointer;
+  }
+  .shop-cond .shop-cond-icon:hover {
+    transform: scale(1.28);
+    z-index: 2;
   }
   .shop-cond-text {
     display: inline-flex;
@@ -4931,8 +5036,22 @@
     cursor: not-allowed;
     opacity: 0.58;
   }
-  .shop-tip-jar.drop .shop-tip-jar-glass::after {
-    animation: coinDrop 0.42s ease both;
+  .shop-tip-jar.drop .shop-tip-jar-img {
+    animation: tipJarBounce 0.42s ease both;
+  }
+  @keyframes tipJarBounce {
+    0%   { transform: translateY(0) scale(1); }
+    35%  { transform: translateY(-5px) scale(1.06); }
+    70%  { transform: translateY(0) scale(0.97); }
+    100% { transform: translateY(0) scale(1); }
+  }
+  /* банка-картинка (banka1..17.png) — меняется по мере пожертвований */
+  .shop-tip-jar-img {
+    width: 56px;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 6px 7px rgba(0,0,0,0.35));
+    transition: transform 0.18s ease;
   }
   .shop-tip-jar-glass {
     width: 56px;
@@ -8349,7 +8468,13 @@
     width: 52px;
     height: 56px;
     filter: drop-shadow(0 8px 10px rgba(0,0,0,0.36));
+    /* не выделяется/не перетаскивается при клике — убираем «скопировать» от браузера */
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
   }
+  .shop-trinket img { -webkit-user-drag: none; user-select: none; pointer-events: none; }
   .shop-shelf .shop-tip-jar {
     position: relative;
     right: auto;
@@ -8381,6 +8506,9 @@
     bottom: 6px;
     box-shadow: -10px -1px 0 -5px #fbbf24, 10px -3px 0 -6px #fbbf24;
   }
+  .shop-shelf .shop-tip-jar-img {
+    width: 48px;
+  }
   .shop-shelf .shop-tip-jar span {
     font-size: 10px;
   }
@@ -8392,8 +8520,9 @@
     background: url('images/mimimi.png') center/contain no-repeat;
     cursor: pointer;
     pointer-events: auto;
-    /* чуть правее — чтобы не задевать хитбокс тентаклей слева */
-    left: 14px;
+    /* сильно правее — левый тентакль доходит до ~406px и перекрывал хитбокс Ками */
+    left: 80px;
+    top: -18px; /* повыше, чтобы стояла на полке, а не «падала» */
     transition: transform 0.18s cubic-bezier(.2,1.6,.3,1), filter 0.2s;
   }
   .trinket-key::before,
@@ -8431,6 +8560,9 @@
     background: url('images/grgrgr.png') center/contain no-repeat;
     cursor: pointer;
     pointer-events: auto;
+    /* тоже правее — чтобы не прижиматься к сдвинутой Ками */
+    left: 34px;
+    top: -18px; /* повыше, на полку */
     transition: transform 0.18s cubic-bezier(.2,1.6,.3,1), filter 0.2s;
   }
   .trinket-bottle::before,
@@ -9356,7 +9488,17 @@
   <div class="collection-section" id="collectionSection" style="grid-area:collect">
     <div class="collection-header">
       <div class="collection-title">Коллекция</div>
-      <button class="merge-all-btn" id="mergeAllBtn" type="button" style="display:none">🔄 Слить дубликатов</button>
+      <div class="collection-tools">
+        <select class="coll-sort" id="collSort" title="сортировка коллекции">
+          <option value="default">по получению</option>
+          <option value="levelDesc">уровень ↓</option>
+          <option value="incomeDesc">доход ↓</option>
+          <option value="tierDesc">тир ↓</option>
+          <option value="dupDesc">дубликаты ↓</option>
+          <option value="nameAsc">имя А–Я</option>
+        </select>
+        <button class="merge-all-btn" id="mergeAllBtn" type="button" style="display:none">🔄 Слить дубликатов</button>
+      </div>
     </div>
     <div class="collection-empty" id="collEmpty">Пока пусто — доставь няшке подарок, чтобы она оказалась здесь!</div>
     <div class="upgrade-mode-bar" data-mode-target="ponies">
@@ -9762,6 +9904,10 @@
             <svg class="changelog-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
             <span>в магазинчике появились <b>мимишные друзья</b>.....</span>
           </li>
+          <li>
+            <svg class="changelog-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="9" y2="18"/></svg>
+            <span>доп. добавлена <b>сортировка</b> поняшек в коллекции</span>
+          </li>
         </ul>
       </div>
       <div class="changelog-entry">
@@ -9903,6 +10049,12 @@
           <div class="roadmap-desc">сейчас у неё один звук, нужен ещё один</div>
         </div>
       </div>
+      <div class="roadmap-item">
+        <span class="roadmap-icon-emoji">🏅</span>
+        <div class="roadmap-body">
+          <div class="roadmap-title">Достижения</div>
+        </div>
+      </div>
     </div>
     <button class="roadmap-close" id="roadmapClose" type="button">закрыть</button>
   </div>
@@ -9988,7 +10140,7 @@
       <span class="merge-pony-dot main">✦</span>
     </div>
     <h3>соединить дубликаты?</h3>
-    <p class="merge-confirm-note">лишние карточки аккуратно прилипнут к первой. без душной бухгалтерии.</p>
+    <p class="merge-confirm-note">лишние карточки аккуратно прилипнут к первой. без духоты.</p>
     <div class="merge-confirm-summary" id="mergeConfirmSummary">стоимость: 0💰</div>
     <div class="merge-confirm-actions">
       <button class="merge-confirm-btn cancel" id="mergeCancelBtn" type="button">оставить</button>
@@ -10001,7 +10153,7 @@
   <div class="house-dialog">
     <h3>Дом построен</h3>
     <p>Внутри пока тихо, мило и подозрительно дорого. Юля делает вид, что это было абсолютно рациональное вложение.</p>
-    <h4 class="house-shelf-title">🏆 Полка с бесполезными кубками</h4>
+    <h4 class="house-shelf-title">🏆 Полка с бесполезными кубками <span class="trophy-progress" id="trophyProgress"></span></h4>
     <div class="house-room" id="houseTrophiesList"></div>
     <button class="house-action-btn" id="houseCloseBtn" type="button">выйти</button>
   </div>
@@ -10064,7 +10216,7 @@
       <span class="shop-trinket trinket-key"></span>
       <span class="shop-trinket trinket-bottle"></span>
       <button class="shop-tip-jar" id="shopTipJar" type="button" title="пожертвовать мелочь" aria-label="пожертвовать мелочь">
-        <span class="shop-tip-jar-glass"></span>
+        <img class="shop-tip-jar-img" id="shopTipJarImg" src="images/banka0.png" alt="" loading="lazy" onerror="this.src='images/banka0.png'">
         <span>банка<br><b id="shopTipJarCount">0</b> отдано</span>
       </button>
       <span class="shop-trinket trinket-orb"></span>
@@ -10121,7 +10273,7 @@
       <div class="shop-rotation-grid" id="shopRotationGrid"></div>
     </div>
     <div class="shop-item shop-finish-item" style="margin-top:14px;border-color:#f9a8d4;background:linear-gradient(145deg, rgba(60,20,68,0.95), rgba(40,12,40,0.96));">
-      <strong style="color:#fde047;text-shadow:0 0 12px rgba(253,224,71,0.4)">Пройти игру!!!!</strong>
+      <strong style="color:#fde047;text-shadow:0 0 12px rgba(253,224,71,0.4)">🏁 Пройти игру!!!!</strong>
       <span id="shopFinishText" style="font-size:12px;line-height:1.5"></span>
       <button class="house-action-btn" id="shopFinishBtn" type="button" disabled style="background:linear-gradient(135deg, #be185d, #7c2d12);border-color:#fde047;color:#fff;font-weight:900;letter-spacing:0.04em">Пройти игру</button>
     </div>
@@ -10511,6 +10663,9 @@ function saveState() {
       looseChange: typeof looseChange === 'number' ? looseChange : 0,
       looseDonations: typeof looseDonations === 'number' ? looseDonations : 0,
       looseChangeUnlocked: typeof looseChangeUnlocked === 'boolean' ? looseChangeUnlocked : false,
+      mimimiClicks: typeof mimimiClicks === 'number' ? mimimiClicks : 0,
+      grgrgrClicks: typeof grgrgrClicks === 'number' ? grgrgrClicks : 0,
+      collSortMode: typeof collSortMode === 'string' ? collSortMode : 'default',
       deliveryInsurance: typeof deliveryInsurance === 'number' ? deliveryInsurance : 0,
       yuliaCookieBoost: typeof yuliaCookieBoost === 'number' ? yuliaCookieBoost : 0,
       autoPitJumpUnlocked: !!autoPitJumpUnlocked,
@@ -10555,6 +10710,9 @@ function applyLoadedState() {
   if (typeof s.looseChange === 'number') looseChange = s.looseChange;
   if (typeof s.looseDonations === 'number') looseDonations = s.looseDonations;
   if (typeof s.looseChangeUnlocked === 'boolean') looseChangeUnlocked = s.looseChangeUnlocked;
+  if (typeof s.mimimiClicks === 'number') mimimiClicks = s.mimimiClicks;
+  if (typeof s.grgrgrClicks === 'number') grgrgrClicks = s.grgrgrClicks;
+  if (typeof s.collSortMode === 'string') { collSortMode = s.collSortMode; if (collSort) collSort.value = collSortMode; }
   if (typeof s.deliveryInsurance === 'number') deliveryInsurance = Math.max(0, Math.min(3, s.deliveryInsurance));
   if (typeof s.yuliaCookieBoost === 'number') yuliaCookieBoost = Math.max(0, Math.min(3, s.yuliaCookieBoost));
   if (typeof s.autoPitJumpUnlocked === 'boolean') autoPitJumpUnlocked = s.autoPitJumpUnlocked;
@@ -12041,6 +12199,8 @@ async function handleDeath() {
   }
 
   await sleep(500);
+  // игрок нажал «хватит» во время смерти — отмена уже всё сбросила, не оживляем
+  if (missionCancelled) return;
   setRunnerState('normal');
 
   // спавн в "последнем безопасном чекпоинте" — у ближайшей пройденной ямы слева от смерти,
@@ -12082,6 +12242,8 @@ async function handleDeath() {
   lastTs     = null;
   updateCamera();
   await sleep(200);
+  // ещё раз: если за время паузы нажали «хватит» — не оживляем и не перезапускаем цикл
+  if (missionCancelled) return;
 
   if (needsPickup) {
     statusBox.innerHTML = `<span>🐾</span> Поняшка ждёт там же — беги за ней снова!`;
@@ -12481,6 +12643,7 @@ const CRAFT_ICONS = { '🌸': '🌸', '🎀': '🎀', '⭐': '⭐', '🍀': '�
 let collBalance = 0;
 let collPonies  = []; // { id, emoji, craftEmoji, craftName, level, income }
 let collIdSeq   = 0;
+let collSortMode = 'default'; // сортировка коллекции
 let looseChange = 0;
 let looseDonations = 0;
 let looseChangeUnlocked = false;
@@ -12493,6 +12656,12 @@ let pitEnterTime = 0;
 const collBalEl  = document.getElementById('collBalance');
 const collEmpty  = document.getElementById('collEmpty');
 const collGrid   = document.getElementById('collGrid');
+const collSort   = document.getElementById('collSort');
+if (collSort) collSort.addEventListener('change', () => {
+  collSortMode = collSort.value;
+  if (typeof renderCollection === 'function') renderCollection();
+  if (typeof saveState === 'function') saveState();
+});
 const coinGainRate = document.getElementById('coinGainRate');
 const looseGainRate = document.getElementById('looseGainRate');
 const looseChangeBtn = document.getElementById('looseChangeBtn');
@@ -12536,6 +12705,9 @@ const autoPitToggleState = document.getElementById('autoPitToggleState');
 const shopCloseBtn = document.getElementById('shopCloseBtn');
 const shopTipJar = document.getElementById('shopTipJar');
 const shopTipJarCount = document.getElementById('shopTipJarCount');
+const shopTipJarImg = document.getElementById('shopTipJarImg');
+const BANKA_MAX = 16;      // banka0.png (пустая) … banka16.png (полная) — 17 кадров
+const BANKA_FULL_AT = 50;  // сколько мелочи отдать, чтобы банка стала полной (плавно)
 const shopTouchTentaclesBtn = document.getElementById('shopTouchTentaclesBtn');
 const boyPerksRow = document.getElementById('boyPerksRow');
 const statInsurance = document.getElementById('statInsurance');
@@ -12599,6 +12771,15 @@ function renderShopTipJar() {
   if (!shopTipJar || !shopTipJarCount) return;
   shopTipJarCount.textContent = fmtNum(looseDonations);
   shopTipJar.disabled = looseChange <= 0;
+  // банка наполняется плавно: путь banka0→banka16 растянут на BANKA_FULL_AT пожертвований
+  if (shopTipJarImg) {
+    const frac = Math.min(1, (looseDonations || 0) / BANKA_FULL_AT);
+    const idx = Math.max(0, Math.min(BANKA_MAX, Math.round(frac * BANKA_MAX)));
+    const want = `images/banka${idx}.png`;
+    if (!shopTipJarImg.getAttribute('src') || !shopTipJarImg.getAttribute('src').endsWith(want)) {
+      shopTipJarImg.src = want;
+    }
+  }
   if (typeof renderShopFinishItem === 'function') renderShopFinishItem();
 }
 
@@ -12651,12 +12832,17 @@ if (shopTipJar) {
   });
 }
 
+// счётчики кликов по друзьяшкам на полке — у каждого свой, сохраняются отдельно
+let mimimiClicks = 0, grgrgrClicks = 0;
+
 // клик по mimimi-тринкету: «приютить Ками» — она умиляется (mimimicute.png) + сердечки
 const mimimiTrinket = document.querySelector('.shop-trinket.trinket-key');
 if (mimimiTrinket) {
   let mimimiCuteTimer = null;
   mimimiTrinket.addEventListener('click', e => {
     e.stopPropagation();
+    mimimiClicks++;
+    saveState();
     mimimiTrinket.classList.remove('cute');
     void mimimiTrinket.offsetWidth; // рестарт анимации «поп»
     mimimiTrinket.classList.add('cute');
@@ -12687,6 +12873,8 @@ if (grgrgrTrinket) {
   };
   grgrgrTrinket.addEventListener('click', e => {
     e.stopPropagation();
+    grgrgrClicks++;
+    saveState();
     grgrgrTrinket.classList.add('grgrgr-anim');
     // звук «закипания» — стартует с кликом и глушится в конце анимации (подогнан под 1.3с)
     stopGrgrgrSound();
@@ -13670,16 +13858,24 @@ function renderShopFinishItem() {
   const all = haveKami && haveVasya && haveTips && haveCoins;
   const costHint = gameFinishCount > 0 ? ` (${gameFinishCount + 1}-й заход — каждый раз дороже)` : '';
   const conds = [
-    { ok: haveKami,  text: 'приютить Ками' },
-    { ok: haveVasya, text: 'приютить Васю' },
+    { ok: haveKami,  text: 'приютить Ками', imgOk: 'images/mimimi.png' },
+    { ok: haveVasya, text: 'приютить Васю', imgOk: 'images/grgrgr.png' },
     { ok: haveTips,  text: `пожертвовать ${fmtNum(FINISH_GAME_TIPS)} мелочи`, hint: `сейчас ${fmtNum(looseDonations || 0)}` },
-    { ok: haveCoins, text: `заплатить ${fmtNum(currentCost)} монеток${costHint}` },
+    { ok: haveCoins, text: `заплатить ${fmtNum(currentCost)} монеток${costHint}`, imgOk: 'images/lemonguy.png', imgNo: 'images/lemonguy1.png' },
   ];
+  // иконка условия: у некоторых — своя картинка для двух состояний (есть/нет), иначе галочка
+  const condIcon = (c) => {
+    if (c.imgOk || c.imgNo) {
+      const src = c.ok ? c.imgOk : c.imgNo;
+      return src ? `<img class="shop-cond-img" src="${src}" alt="" onerror="this.style.display='none'">` : '';
+    }
+    return c.ok
+      ? '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg>'
+      : '';
+  };
   shopFinishText.innerHTML = conds.map(c =>
     `<div class="shop-cond ${c.ok ? 'done' : ''}">
-      <span class="shop-cond-icon">${c.ok
-        ? '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg>'
-        : ''}</span>
+      <span class="shop-cond-icon${(c.imgOk || c.imgNo) ? ' has-img' : ''}">${condIcon(c)}</span>
       <span class="shop-cond-text">${c.text}${c.hint ? `<span class="shop-cond-hint">${c.hint}</span>` : ''}</span>
     </div>`
   ).join('');
@@ -14152,14 +14348,33 @@ let trophies = (() => {
   try { return JSON.parse(localStorage.getItem('trophies') || '[]'); }
   catch(e) { return []; }
 })();
+// миграция старых сейвов: схлопываем дубликаты в один кубок с count
+(function dedupeTrophies() {
+  const map = new Map();
+  for (const t of trophies) {
+    if (!t || !t.text) continue;
+    if (map.has(t.text)) { const e = map.get(t.text); e.count = (e.count || 1) + 1; }
+    else map.set(t.text, { text: t.text, at: t.at || Date.now(), count: t.count || 1 });
+  }
+  trophies = [...map.values()];
+})();
 function saveTrophies() {
   try { localStorage.setItem('trophies', JSON.stringify(trophies)); } catch(e) {}
 }
+// уникальные кубки не дублируются: повтор увеличивает count (×N), а не добавляет новую тумбочку
 function addTrophy(text) {
-  trophies.unshift({ text, at: Date.now() });
-  if (trophies.length > 100) trophies.pop();
+  const existing = trophies.find(t => t.text === text);
+  let isDuplicate = false;
+  if (existing) {
+    existing.count = (existing.count || 1) + 1;
+    isDuplicate = true;
+  } else {
+    trophies.unshift({ text, at: Date.now(), count: 1 });
+    if (trophies.length > 100) trophies.pop();
+  }
   saveTrophies();
   renderHouseTrophies();
+  return isDuplicate;
 }
 const TROPHY_VARIANTS = ['gold', 'silver', 'bronze'];
 function trophyVariantFromText(text) {
@@ -14179,8 +14394,19 @@ function buildTrophyCup(variant) {
     </div>
   `;
 }
+function updateTrophyProgress() {
+  const el = document.getElementById('trophyProgress');
+  if (!el) return;
+  const total = USELESS_TROPHIES.length;
+  const owned = new Set(trophies.map(t => t.text));
+  const opened = USELESS_TROPHIES.filter(t => owned.has(t)).length;
+  const dups = trophies.reduce((s, t) => s + Math.max(0, (t.count || 1) - 1), 0);
+  el.textContent = `открыто ${opened} / ${total}` + (dups > 0 ? ` · дубликатов: ${dups}` : '');
+  el.classList.toggle('complete', opened >= total);
+}
 function renderHouseTrophies() {
   const listEl = document.getElementById('houseTrophiesList');
+  updateTrophyProgress();
   if (!listEl) return;
   if (!trophies.length) {
     listEl.innerHTML = `
@@ -14201,9 +14427,12 @@ function renderHouseTrophies() {
     const items = shelf.map(t => {
       const variant = trophyVariantFromText(t.text);
       const safeText = String(t.text || '').replace(/"/g, '&quot;');
+      const cnt = t.count || 1;
+      const dupBadge = cnt > 1 ? `<span class="trophy-dup-badge">×${cnt}</span>` : '';
       return `
-        <button class="house-trophy" type="button" data-title="${safeText}" title="${safeText}">
+        <button class="house-trophy" type="button" data-title="${safeText}" title="${safeText}${cnt > 1 ? ' (дубликатов: ' + cnt + ')' : ''}">
           ${buildTrophyCup(variant)}
+          ${dupBadge}
           <div class="trophy-label">${safeText}</div>
         </button>
       `;
@@ -14231,8 +14460,12 @@ function renderHouseTrophies() {
 
 async function deliverUselessTrophy() {
   if (!world || !runner || !carry) return;
-  // выбираем кубок
-  const trophy = USELESS_TROPHIES[Math.floor(Math.random() * USELESS_TROPHIES.length)];
+  // выбираем кубок — сначала из ещё НЕ открытых, чтобы коллекция заполнялась без лишних дублей
+  const owned = new Set(trophies.map(t => t.text));
+  const unopened = USELESS_TROPHIES.filter(t => !owned.has(t));
+  const trophy = unopened.length
+    ? unopened[Math.floor(Math.random() * unopened.length)]
+    : USELESS_TROPHIES[Math.floor(Math.random() * USELESS_TROPHIES.length)]; // всё собрано — будет дубликат (×N)
   // СБРОС всех залипающих флагов от sendBoyToShop
   busy = false;
   shopOpen = false;
@@ -14704,11 +14937,28 @@ function ponyEconomy(p) {
   };
 }
 
+// возвращает копию коллекции, отсортированную по выбранному режиму (исходный порядок не трогаем)
+function sortedCollPonies() {
+  const arr = collPonies.slice();
+  const incomeOf = p => { const pd = ponyEconomy(p); return pd.baseIncome * (p.level || 1); };
+  const tierRankOf = p => (getPonyTier(p.tier || 'common').mult || 1);
+  const byId = (a, b) => (a.id || 0) - (b.id || 0);
+  switch (collSortMode) {
+    case 'levelDesc':  arr.sort((a, b) => (b.level || 1) - (a.level || 1) || byId(a, b)); break;
+    case 'incomeDesc': arr.sort((a, b) => incomeOf(b) - incomeOf(a) || byId(a, b)); break;
+    case 'tierDesc':   arr.sort((a, b) => tierRankOf(b) - tierRankOf(a) || (b.level || 1) - (a.level || 1) || byId(a, b)); break;
+    case 'dupDesc':    arr.sort((a, b) => (b.mergeCount || 1) - (a.mergeCount || 1) || byId(a, b)); break;
+    case 'nameAsc':    arr.sort((a, b) => (a.ponyName || a.emoji || '').localeCompare(b.ponyName || b.emoji || '', 'ru') || byId(a, b)); break;
+    default:           arr.sort(byId); break; // «по получению»
+  }
+  return arr;
+}
+
 function renderCollection() {
   collEmpty.style.display = collPonies.length ? 'none' : 'block';
   collGrid.innerHTML = '';
   renderBalanceGains();
-  collPonies.forEach(p => {
+  sortedCollPonies().forEach(p => {
     const pd = ponyEconomy(p);
     const tier = getPonyTier(p.tier || 'common');
     const income    = pd.baseIncome * p.level;
@@ -16857,12 +17107,8 @@ ponyGrid.addEventListener('click', e => {
     zone,
   };
 
-  // если занят — копим в очередь
+  // если занят — копим в очередь (без ограничения по размеру)
   if (busy) {
-    if (missionQueue.length >= MISSION_QUEUE_MAX) {
-      showBubble('очередь полная — мальчик не резиновый');
-      return;
-    }
     missionQueue.push(params);
     btn.classList.remove('queue-pop');
     void btn.offsetWidth;
